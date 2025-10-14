@@ -6,7 +6,6 @@ log.txt
 run.sh
 *.DS_Store
 *~
-settings.py
 
 # Environments 
 .env 
