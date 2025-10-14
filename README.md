@@ -12,3 +12,8 @@ pip install -r requirements.txt
 ...
 ```
 ... and then install playwright?
+
+## Usage
+
+source .venv/bin/activate
+./app.py --debug -j alto
