@@ -16,4 +16,5 @@ pip install -r requirements.txt
 ## Usage
 
 source .venv/bin/activate
+
 ./app.py --debug -j alto
