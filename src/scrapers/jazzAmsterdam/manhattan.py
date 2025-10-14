@@ -8,9 +8,13 @@ def formatDate(event):
     date = futureDate(myStrptime(dateString, dateFormat).date(), 90)
     return date.strftime('%Y-%m-%d')
 
-def formatTime(eventInfo):
-    time = re.search(r'Music starts at \d\d:\d\d', eventInfo)[0][-5:]
-    return time
+def formatTime(eventInfo, soup):
+    time = re.search(r'Music starts at (\d\d:\d\d)', eventInfo)
+    if time:
+        return time.group(1)
+    else:
+        time = re.search(r'From (\d\d:\d\d), come enjoy live music in the Zuidas.', soup.text)
+        return time.group(1)
 
 def formatTitle(event):
     performing = event.select_one('h6').text.strip()
@@ -18,13 +22,16 @@ def formatTitle(event):
         ensembleName = event.select_one('h6+:is(p, h5, h6, div)').text.strip()
         return ensembleName
     else:
+        if "Performing:" in performing:
+            return performing.replace("Performing:", "").strip()
         raise Exception('irregular format')
 
-def getData(event):
+def getData(event_soup):
+    event, soup = event_soup
     if "Add to agenda" in event.text:
         return {
             'date': formatDate(event),
-            'time': formatTime(event.text),
+            'time': formatTime(event.text, soup),
             'title': formatTitle(event),
             'venue': "Manhattan Bar",
             'price': "",
@@ -36,7 +43,7 @@ def getEventList():
     url = 'https://manhattanbar.nl/events/live-music-nights-on-thursdays/'
     soup = makeSoup(url)
     events = soup.select('#content > div.page-content > div.elementor > section.elementor-section:not(.elementor-hidden-desktop)')
-    return events
+    return [[event, soup] for event in events]
 
 def bot():
     return map(getData, getEventList())

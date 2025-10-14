@@ -2,20 +2,10 @@ from src.tools.scraper_tools import myStrptime
 from src.tools.scraper_tools import makeSoup
 import re
 
-
 def formatDate(dateString):
     dateFormat = '%A %d %B %Y'
     date = myStrptime(dateString.split(' - ')[0], dateFormat)
     return date.strftime('%Y-%m-%d')
-
-# def formatTime(time):
-#     # format time as '21:00'
-#     return time
-
-# def formatPrice(price):
-#     # format price as '\u20ac12,50' (no space!)
-#     price = price.replace(' ','')
-#     return price
 
 def getData(event):
     if "jazz" in event.text.lower():

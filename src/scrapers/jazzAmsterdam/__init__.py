@@ -5,7 +5,7 @@ __all__ = [
     "breugem",
     "contra",
     "dillewijn",
-    "eindexamens2025",
+    # "eindexamens2025",
     "engelbewaarder",
     "horizon",
     "hulschers",

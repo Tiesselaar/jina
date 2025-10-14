@@ -3,7 +3,7 @@ from src.tools.scraper_tools import makeSoup
 
 
 def formatDate(dateString):
-    dateFormat = '%d %B %Y'
+    dateFormat = '%A %d %B %Y'
     date = myStrptime(dateString, dateFormat).date()
     return date.strftime('%Y-%m-%d')
 

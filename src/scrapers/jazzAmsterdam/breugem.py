@@ -25,7 +25,7 @@ def getData(event):
 
 def getEventList():
     url = 'https://www.breugemmeetingpoint.nl/agenda'
-    return makeSoup(url).select('h3.jw-heading-70 > span')
+    return makeSoup(url).select('h3.jw-heading-70')
 
 def bot():
     return map(getData, getEventList())
