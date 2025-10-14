@@ -5,7 +5,7 @@ def formatDate(date):
     my_date = myStrptime(date, dateFormat)
     return my_date.strftime('%Y-%m-%d')
 
-def dateToPrice(gig_date,gig_time):
+def dateToPrice(gig_date, gig_time):
     gig_isoweekday = myStrptime(gig_date, '%Y-%m-%d').isoweekday()
     if gig_isoweekday in [1,2,3,4,7] and gig_time == '21:00':
         return '€5'
@@ -13,11 +13,22 @@ def dateToPrice(gig_date,gig_time):
         return '€10'
     else:
         return ''
+    
+def dateToTime(gig_date):
+    gig_isoweekday = myStrptime(gig_date, '%Y-%m-%d').isoweekday()
+    if gig_isoweekday in [1,2,3,4,5]:
+        return "20:30"
+    return "21:00"
 
 def getData(event):
     date = formatDate(event.select_one('.start-date').text)
     title = event.select_one('.event-title a').text
-    time = event.select_one('.event-time').text.split('-')[0].replace('.',':')
+    print(title)
+    time = event.select_one('.event-time')
+    if time:
+        time = time.text.split('-')[0].replace('.',':')
+    else:
+        time = dateToTime(date)
     eventData = {
         'date': date,
         'time': time,
@@ -32,7 +43,7 @@ def getData(event):
     return eventData
 
 def getEventList():
-    url='http://www.jazz-cafe-alto.nl'
+    url='https://www.jazz-cafe-alto.nl'
     events = makeSoup(url).select('.event')
     return events
 
