@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from concurrent.futures import ThreadPoolExecutor
 from src.tools import handler, mailjet
-from settings import shortcuts
+from settings import shortcuts, MAX_WORKERS
 
 import time
 import sys
@@ -53,7 +53,7 @@ def try_update_agenda(args):
     
 def get(venues, debug, noval):
     for calendar in venues:
-        with ThreadPoolExecutor(max_workers=4) as executor:
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
             results = executor.map(try_update_agenda, [
                 (venue,
                 calendar,
