@@ -16,6 +16,7 @@ httpcore==1.0.9
 httpx==0.28.1
 hyperframe==6.1.0
 idna==3.11
+lxml==6.0.2
 mailjet-rest==1.5.1
 multidict==6.7.0
 packaging==25.0
