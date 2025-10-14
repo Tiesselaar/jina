@@ -10,4 +10,4 @@ shortcuts = {
     "-w": "worldAmsterdam",
 }
 
-MAX_WORKERS = 16
+MAX_WORKERS = 8
