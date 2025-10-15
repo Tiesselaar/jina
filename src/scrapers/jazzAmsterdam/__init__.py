@@ -24,7 +24,6 @@ __all__ = [
     "ramses",
     "rooderemise",
     "ruimte",
-    "sieraad",
     "splendor",
     "studio150",
     "tenclub",

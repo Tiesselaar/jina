@@ -2,6 +2,9 @@ from src.tools.scraper_tools import myStrptime
 from src.tools.scraper_tools import makeSoup, futureDate
 import re
 
+CALENDARS = ['jazzAmsterdam', 'classicalAmsterdam']
+
+
 def formatDate(dateString):
     dateFormat = '%d %B %Y'
     date = myStrptime(dateString, dateFormat).date()
@@ -13,17 +16,21 @@ def formatTime(text):
 
 def getData(event):
     site = event.select_one('h3.t-entry-title > a').get('href')
-    description = " ".join(map(lambda x: x.text, makeSoup(site).select('.uncode_text_column'))).lower()
-    if "jazz" in description:
-        return {
-            'date': formatDate(event.select_one('span.t-entry-date').text),
-            'time': formatTime(event.select_one('.t-entry-excerpt > p').text),
-            'title': event.select_one('h3.t-entry-title > a').text,
-            'venue': "Studio 150",
-            'price': "",
-            'site': site,
-            'address': "Zwanenplein 34, 1021 CM Amsterdam"
-        }
+    subsoup = makeSoup(site)
+    description = " ".join(map(lambda x: x.text, subsoup.select('.uncode_text_column')))
+    event_data = {
+        'date': formatDate(event.select_one('span.t-entry-date').text),
+        'time': formatTime(event.select_one('.t-entry-excerpt > p').text),
+        'title': event.select_one('h3.t-entry-title > a').text,
+        'venue': "Studio 150",
+        'price': "free" if "De toegang is gratis" in description else "",
+        'site': site,
+        'address': "Zwanenplein 34, 1021 CM Amsterdam"
+    }
+    if "jazz" in description.lower():
+        yield {**event_data, 'calendar': 'jazzAmsterdam'}
+    else:
+        yield {**event_data, 'calendar': 'classicalAmsterdam'}
 
 def getEventList():
     url = 'https://studio150.nl/concerts/'
@@ -31,4 +38,4 @@ def getEventList():
     return events
 
 def bot():
-    return map(getData, getEventList())
+    return (gig for event in getEventList() for gig in getData(event))

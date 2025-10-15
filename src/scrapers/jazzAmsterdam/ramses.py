@@ -58,7 +58,6 @@ def getData(event):
             return eventData
 
 def getEventList():
-    venue_name = 'ramses'
     url = 'https://kunstenaarshuizen.amsterdam/culturele-agenda-verwacht/'
     events = makeSeleniumSoup(url, 2).select('.vc_grid .vc_pageable-slide-wrapper .vc_grid-item')
     return events
