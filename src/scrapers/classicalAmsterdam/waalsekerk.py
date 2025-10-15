@@ -1,7 +1,8 @@
 from src.tools.scraper_tools import myStrptime
-from src.tools.scraper_tools import makeSoup, futureDate
+from src.tools.scraper_tools import makeSoup
 import re
 
+CALENDARS = ['classicalAmsterdam', 'jazzAmsterdam']
 
 def formatDate(dateString):
     dateString = dateString.split('om')[0]
@@ -29,7 +30,7 @@ def formatPrice(description):
 def getData(event):
     site = event.select_one('a').get('href')
     subsoup = makeSoup(site)
-    return {
+    event_data = {
         'date': formatDate(event.select_one('h3 + p + p').text),
         'time': formatTime(event.select_one('h3 + p + p').text),
         'title': (event.select_one('h3').text + " - " + event.select_one('h3 + p').text).strip(" -"),
@@ -38,6 +39,10 @@ def getData(event):
         'site': site,
         'address': "Walenpleintje 157-159, 1012 JZ Amsterdam"
     }
+    yield {**event_data, 'calendar': 'classicalAmsterdam'}
+    if "jazz" in " ".join(map(lambda x: x.text, subsoup.select('h1 ~ p'))).lower():
+        yield {**event_data, 'calendar': 'jazzAmsterdam'}
+
 
 def getEventList():
     url = 'https://dewaalsekerk.nl/agenda#Muziek'
@@ -45,4 +50,4 @@ def getEventList():
     return events
 
 def bot():
-    return map(getData, getEventList())
+    return (gig for event in getEventList() for gig in getData(event))

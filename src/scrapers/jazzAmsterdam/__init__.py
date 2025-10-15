@@ -29,7 +29,6 @@ __all__ = [
     "tenclub",
     "tolhuis",
     "toomler",
-    "waalsekerk",
     "wearepublic",
     "westeramstel",
     "zaal100",
