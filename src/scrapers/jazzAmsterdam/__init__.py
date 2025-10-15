@@ -16,7 +16,6 @@ __all__ = [
     "kring",
     "liveineurope",
     "manhattan",
-    "omval",
     "opus",
     "pianist",
     "pinto",

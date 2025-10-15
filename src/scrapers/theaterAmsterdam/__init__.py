@@ -21,6 +21,7 @@ __all__ = [
     "meervaart",
     "mezrab",
     "mozaiek",
+    "omval",
     "pleintheater",
     "polanentheater",
     "richel",
