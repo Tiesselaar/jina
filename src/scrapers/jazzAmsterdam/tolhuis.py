@@ -1,4 +1,4 @@
-from src.tools.scraper_tools import myStrptime, makeSoup
+from src.tools.scraper_tools import myStrptime, makeSeleniumSoup
 
 def formatDateTime(dateString):
     dateString = " ".join(dateString.split()[0:4])
@@ -7,15 +7,15 @@ def formatDateTime(dateString):
     return date_time.strftime('%Y-%m-%d'), date_time.strftime('%H:%M'), 
 
 def getData(event):
-    if "jazz" in event.text.lower():
+    if "jazz" in event.text.lower() or "big band" in event.text.lower():
         date, time = formatDateTime(event.select_one('[data-hook="date"]').text)
         eventData = {
             'date': date,
             'time': time,
-            'title': event.select_one('[data-hook="title"] a').text,
+            'title': event.select_one('a[data-hook="title"]').text,
             'venue': "Tolhuis",
             'price': "",
-            'site': event.select_one('[data-hook="title"] a').get('href'),
+            'site': event.select_one('a[data-hook="title"]').get('href'),
             'address': "Buiksloterweg 7, 1031 CC Amsterdam"
         }
         return eventData
@@ -23,7 +23,7 @@ def getData(event):
 def getEventList():
     venue_name = 'tolhuis'
     url = 'https://www.tolhuis.nl/agenda'
-    return makeSoup(url).select_one('ul[data-hook="events-cards"]').select('li[data-hook="events-card"]')
+    return makeSeleniumSoup(url, 2).select_one('ul[data-hook="events-cards"]').select('li[data-hook="events-card"]')
 
 def bot():
     return map(getData, getEventList())
