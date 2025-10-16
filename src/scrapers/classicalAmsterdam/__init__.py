@@ -3,7 +3,6 @@ __all__ = [
     "concertgebouw",
     "concertgemaal",
     "cva",
-    "dominicuskerk",
     "embassy",
     "erc",
     "geelvinck",

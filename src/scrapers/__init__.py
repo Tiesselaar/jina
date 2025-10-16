@@ -5,6 +5,7 @@ __all__ = [
     "danceAmsterdam",
     "jazzAmsterdam",
     "popAmsterdam",
+    "religionAmsterdam",
     "theaterAmsterdam",
     "worldAmsterdam",
 ]

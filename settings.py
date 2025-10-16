@@ -6,6 +6,7 @@ shortcuts = {
     "-d": "danceAmsterdam",
     "-j": "jazzAmsterdam",
     "-p": "popAmsterdam",
+    "-r": "religionAmsterdam",
     "-t": "theaterAmsterdam",
     "-w": "worldAmsterdam",
 }
