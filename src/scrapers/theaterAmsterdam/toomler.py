@@ -14,9 +14,7 @@ def formatPrice(price):
 def getData(event):
     title_price = event.select_one('.card-heading__content > h4.card-heading__content__title').text
     date, time = formatDate(event.select_one('.card-heading__content .subtitle').text.split(' - ')[0].strip())
-    print(date, time)
     standard_format = len(title_price.split('|')) == 4
-    print(standard_format)
     return {
         'date': date,
         'time': time,
