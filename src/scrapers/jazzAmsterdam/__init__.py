@@ -28,7 +28,6 @@ __all__ = [
     "studio150",
     "tenclub",
     "tolhuis",
-    "toomler",
     "wearepublic",
     "westeramstel",
     "zaal100",

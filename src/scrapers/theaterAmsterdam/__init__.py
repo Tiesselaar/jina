@@ -27,6 +27,7 @@ __all__ = [
     "richel",
     "roodebioscoop",
     "tabacco",
+    "toomler",
     "torpedo",
     "vrijburcht",
 ]
