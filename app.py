@@ -1,15 +1,7 @@
 #!/usr/bin/env python3
 from concurrent.futures import ThreadPoolExecutor
-
-print("test-1")
-
 from src.tools import handler, mailjet
-
-print("test0")
-
 from settings import shortcuts, MAX_WORKERS
-
-print("test1")
 
 import time
 import sys
@@ -29,17 +21,11 @@ https://jazzin.amsterdam
 
 LOGFILE = "./log.txt"
 
-print("test2")
-
-
 def print_log(message, method='a', end="\n"):
     log_file = open(LOGFILE, method)
     log_file.write(message + end)
     log_file.close()
     print(message + "\n")
-
-print("test3")
-
 
 def try_update_agenda(args):
     venue, calendar, debug, noval = args
