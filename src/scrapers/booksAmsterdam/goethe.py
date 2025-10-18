@@ -19,8 +19,9 @@ def formatAddress(address):
     return ", ".join(x for x in map(lambda line: line.text, lines) if x).strip()
 
 def formatPrice(price):
-    price = re.search(r'\d+(,[(\d\d)-])? €', price)
+    price = re.search(r'\d+,((\d\d)|-)? €', price)
     if price:
+        print(price[0])
         return "€" + price[0].strip('€ ,-')
     else:
         return ""
@@ -57,7 +58,7 @@ def getData(event):
 def getEventList():
     url = 'https://www.goethe.de/ins/nl/nl/ver.cfm#adress_IDtxt=Amsterdam'
     # url = 'https://www.goethe.de/ins/nl/nl/ver.cfm'
-    events = makeSeleniumSoup(url, 2).select_one('#event-list-js').select('li.event-item')
+    events = makeSeleniumSoup(url, 2).select_one('#event-list-js').select('li.event-item')[2:3]
     return events
 
 def bot():
