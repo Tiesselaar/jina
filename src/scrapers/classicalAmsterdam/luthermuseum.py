@@ -5,6 +5,8 @@ import re
 CALENDARS = ['classicalAmsterdam', 'jazzAmsterdam']
 
 def formatDate(dateString):
+    if "28 november 2025" in dateString:
+        return "2025-11-28"
     dateFormat = '%d %B %Y'
     date = myStrptime(dateString, dateFormat).date()
     return date.strftime('%Y-%m-%d')
@@ -26,19 +28,15 @@ def formatLocation(location):
 
 def getData(event):
     description = event.text.lower()
-    if not ("tentoonstelling" not in description
-            or "muziek" in description
-            or "concert" in description
-            or "muzikale" in description
-            or "jazz" in description):
+    keywords = ["muziek", "concert", "muzikale", "jazz", "opera", "orgel"]
+    if not any(keyword in description for keyword in keywords):
         return
     site, = [link.get('href') for link in event.select('a.button') if "Lees meer" in link.text]
     try:
         tickets, = [link.get('href') for link in event.select('a.button') if "Tickets" in link.text]
         price = re.search(r'€[  ]?\d+([\.,]\d\d)?', makeSeleniumSoup(tickets, 1).text)[0]
         price = price.replace(',', '.').replace(' ', '').replace(' ','').replace('.00', '')
-    except Exception as e:
-        # raise e
+    except Exception:
         price = ""
     venue, address = formatLocation(event.select_one('.locatie').text)
     event_data =  {
