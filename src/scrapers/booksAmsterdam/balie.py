@@ -38,7 +38,7 @@ def get_location(subsoup):
         location = subsoup.select_one('.banner-bar span.banner-bar__time').text.split('/')[-1].strip()
     except:
         return 'Balie', 'Kleine-Gartmanplantsoen 10, 1017 RR Amsterdam'
-    if location in ['Salon', 'Grote Zaal', 'Pleinzaal', 'Filmzaal']:
+    if location in ['Salon', 'Grote Zaal', 'Pleinzaal', 'Filmzaal', 'Leidseplein']:
         return 'Balie', 'Kleine-Gartmanplantsoen 10, 1017 RR Amsterdam'
     elif location in ['Rotterdam', 'Groningen', 'Cultura Ede', 'Paardenkathedraal, Utrecht']:
         return None, None
@@ -47,7 +47,6 @@ def get_location(subsoup):
 
 def getData(event):
     site = event.select_one('.agenda-item__details > .agenda-item__title-wrapper > a').get('href')
-    print(site)
     subsoup = makeSoup(site)
     venue, address = get_location(subsoup)
     if not venue or not address:
@@ -67,7 +66,7 @@ def getData(event):
 
 def getEventList():
     url = 'https://debalie.nl/programma/'
-    events = makeSeleniumSoup(url).select('section.agenda article.agenda-item')
+    events = makeSeleniumSoup(url, waitFor='section.agenda').select('section.agenda article.agenda-item')
     return events
 
 def bot():
