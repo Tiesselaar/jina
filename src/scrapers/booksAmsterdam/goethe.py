@@ -21,7 +21,6 @@ def formatAddress(address):
 def formatPrice(price):
     price = re.search(r'\d+,((\d\d)|-)? €', price)
     if price:
-        print(price[0])
         return "€" + price[0].strip('€ ,-')
     else:
         return ""
