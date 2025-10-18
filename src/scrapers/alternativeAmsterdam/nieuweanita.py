@@ -12,8 +12,9 @@ def formatDate(dateString):
 
 def getData(event):
     site = event.select_one('.w-grid-item-h a').get('href')
+    print(site)
     subsoup = makeSoup(site)
-    description = subsoup.select_one('div:has(h2.post_title)').text
+    description = subsoup.select_one('section:has(h1.post_title) + section + div').text
     eventData = {
         'date': formatDate(subsoup.select_one('._agenda_short_date span').text),
         'time': subsoup.select_one('.agenda_time_start span').text,

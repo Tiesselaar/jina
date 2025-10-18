@@ -73,8 +73,6 @@ def try_update_agenda(args):
 #             print("")
 #             print("-" * 80 * 2, end="\n\n")
 
-print("test4")
-
 def get(venues, debug, noval):
     for calendar in venues:
         print_log("\n ---- {} ----".format(calendar))
@@ -91,9 +89,6 @@ def get(venues, debug, noval):
             print("")
             print("-" * 80 * 2, end="\n\n")
 
-print("test5")
-
-
 all_venues = {
     calendar: [venue for venue in getattr(handler.scrapers, calendar).__all__]
     for calendar in handler.scrapers.__all__
@@ -103,9 +98,6 @@ all_periods = {
     calendar: [venue for venue in getattr(handler.periods, calendar).__all__]
     for calendar in handler.periods.__all__
 }
-
-print("test6")
-
 
 if __name__=="__main__":
     print("\n" + ("#" * 80) * 2, end="")
