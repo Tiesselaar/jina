@@ -4,6 +4,9 @@ import json
 import datetime
 from html import unescape
 
+CALENDARS = ['religionAmsterdam', 'classicalAmsterdam']
+
+
 def format_address(location):
     if "Dominicus" in location or location == '':
         return "Spuistraat 12A, 1012 TS Amsterdam"
@@ -14,16 +17,23 @@ def format_address(location):
     
 def getData(event):
     address = format_address(event['location'])
-    if address:
-        return {
-            'date': event['start_date'].split()[0],
-            'time': event['start_date'].split()[1][:5],
-            'title': unescape(event['title']),
-            'venue': "Dominicuskerk",
-            'price': "",
-            'site': event['url'],
-            'address': address
-        }
+    if not address:
+        return
+    event_data = {
+        'date': event['start_date'].split()[0],
+        'time': event['start_date'].split()[1][:5],
+        'title': unescape(event['title']),
+        'venue': "Dominicuskerk",
+        'price': "",
+        'site': event['url'],
+        'address': address
+    }
+    yield {**event_data, 'calendar': 'religionAmsterdam'}
+    keywords = ['muziek', 'music', 'concert', 'orkest', 'koor']
+    if any(keyword in event['description'].lower() for keyword in keywords):
+        yield {**event_data, 'calendar': 'classicalAmsterdam'}
+
+
 
 def get_events_for_month(month, year, nonce):
     api = "https://dominicusamsterdam.nl/wp-admin/admin-ajax.php"
@@ -50,4 +60,4 @@ def getEventList():
     return [event for month, year in month_years for event in get_events_for_month(month, year, nonce)]
 
 def bot():
-    return list(map(getData, getEventList()))
+    return (gig for event in getEventList() for gig in getData(event))

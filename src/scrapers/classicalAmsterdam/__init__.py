@@ -6,7 +6,6 @@ __all__ = [
     "embassy",
     "erc",
     "geelvinck",
-    "goethe",
     "grachtenfestival2025",
     "joodsmuseum",
     "kamukoza",
