@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 from concurrent.futures import ThreadPoolExecutor
+
+print("test-1")
+
 from src.tools import handler, mailjet
+
+print("test0")
+
 from settings import shortcuts, MAX_WORKERS
+
+print("test1")
 
 import time
 import sys
@@ -21,11 +29,17 @@ https://jazzin.amsterdam
 
 LOGFILE = "./log.txt"
 
+print("test2")
+
+
 def print_log(message, method='a', end="\n"):
     log_file = open(LOGFILE, method)
     log_file.write(message + end)
     log_file.close()
     print(message + "\n")
+
+print("test3")
+
 
 def try_update_agenda(args):
     venue, calendar, debug, noval = args
@@ -73,6 +87,8 @@ def try_update_agenda(args):
 #             print("")
 #             print("-" * 80 * 2, end="\n\n")
 
+print("test4")
+
 def get(venues, debug, noval):
     for calendar in venues:
         print_log("\n ---- {} ----".format(calendar))
@@ -89,6 +105,9 @@ def get(venues, debug, noval):
             print("")
             print("-" * 80 * 2, end="\n\n")
 
+print("test5")
+
+
 all_venues = {
     calendar: [venue for venue in getattr(handler.scrapers, calendar).__all__]
     for calendar in handler.scrapers.__all__
@@ -98,6 +117,9 @@ all_periods = {
     calendar: [venue for venue in getattr(handler.periods, calendar).__all__]
     for calendar in handler.periods.__all__
 }
+
+print("test6")
+
 
 if __name__=="__main__":
     print("\n" + ("#" * 80) * 2, end="")
