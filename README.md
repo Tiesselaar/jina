@@ -1,14 +1,16 @@
 ## Getting Started
 
 - Fork the project: ....
-- Clone the project: ....
+- Clone the project:
+```bash
+git clone https://github.com/[YourUsername]/jina.git
+```
 
 ### Install the project
 
 ```bash
-git clone https://github.com/Tiesselaar/jina.git
 cd jina
-python3 -m venv .venv
+python3.13 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 install playwright
