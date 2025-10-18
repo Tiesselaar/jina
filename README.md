@@ -6,12 +6,15 @@
 ### Install the project
 
 ```bash
+git clone https://github.com/Tiesselaar/jina.git
+cd jina
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+install playwright
 ...
 ```
-... and then install playwright?
+and then let me know if this doesn't work.....
 
 ## Usage
 

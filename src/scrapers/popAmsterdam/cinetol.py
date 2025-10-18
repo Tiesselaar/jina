@@ -17,6 +17,10 @@ def formatTime(infoLines):
     return details['show']
 
 def formatPrice(priceString):
+    if "gratis" in priceString:
+        return "free"
+    if "donatie" in priceString:
+        return "pwyw"
     priceString = priceString.strip().replace(',', '.').replace('*', '').replace(' ', '')
     if int(priceString.split('.')[1]) == 0:
         priceString = priceString.split('.')[0]
@@ -26,7 +30,7 @@ def getData(event):
     site = "https://www.cinetol.nl" + event.select_one('a').get('href')
     subsoup = makeSoup(site)
 
-    time = formatTime(subsoup.select('.section_event-info-text .div-block-5 .section_event-door-wrapper'))
+    time = formatTime(subsoup.select('.section_event-info-text .div-block-5 .section_event-door-wrapper')).strip()
     if time == "t.b.a.":
         return None
     
