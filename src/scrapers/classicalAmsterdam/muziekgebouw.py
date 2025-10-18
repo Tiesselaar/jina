@@ -19,15 +19,17 @@ def formatTitle(title, subtitle):
     return title
 
 def getData(event):
+    site = "https://www.muziekgebouw.nl" + event.select_one('.descMetaContainer > a.desc').get('href')
+    print(site)
     time_tag = event.select_one('.top-date > span.time')
     if time_tag:
         return {
             'date': formatDate(event.select_one('.top-date > span.start').text.strip()),
             'time': time_tag.text.strip(),
-            'title': formatTitle(event.select_one('h2.title').text.strip(),event.select_one('div.subtitle').text.strip()),
+            'title': formatTitle(event.select_one('h3.title').text.strip(),event.select_one('div.subtitle').text.strip()),
             'venue': "Muziekgebouw",
             'price': formatPrice(event.select_one('.price > button.pricePopoverBtn')),
-            'site': "https://www.muziekgebouw.nl" + event.select_one('.descMetaContainer > a.desc').get('href'),
+            'site': site,
             'address': "Piet Heinkade 1, 1019 BR Amsterdam"
         }
 
