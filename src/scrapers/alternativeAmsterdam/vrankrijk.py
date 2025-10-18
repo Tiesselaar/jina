@@ -15,11 +15,17 @@ def formatDate(dateString):
 #     price = price.replace(' ','')
 #     return price
 
+def format_time(time):
+    t = time.split()[0].split("-")[0].replace('.', ':')
+    if len(t) == 2:
+        return ":".join(time.split()[:2])
+    return t
+
 def getData(event):
     details = event.select_one('.vrankrijk-main-event-details').text.split('|')
     return {
         'date': formatDate(details[0].strip()),
-        'time': details[1].split()[0].replace('.', ':'),
+        'time': format_time(details[1]),
         'title': event.select_one('.vrankrijk-main-event-info h2 a').text.strip(),
         'venue': "Vrankrijk",
         'price': "",

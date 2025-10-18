@@ -16,9 +16,12 @@ def formatPrice(description):
 def getData(event):
     site = event.select_one('.event-thumb > a').get('href')
     subsoup = makeSoup(site)
+    time = subsoup.select_one('time.event-time')
+    if not time:
+        return
     return {
         'date': event.select_one('time.event-date').get('datetime'),
-        'time': subsoup.select_one('time.event-time').get('datetime').split('T')[1][:5],
+        'time': time.get('datetime').split('T')[1][:5],
         'title': event.select_one('h3.event-title').text,
         'venue': "W139",
         'price': formatPrice(subsoup.select_one('.tribe_events').text),
