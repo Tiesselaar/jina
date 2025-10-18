@@ -18,7 +18,7 @@ def dateToTime(gig_date):
     gig_isoweekday = myStrptime(gig_date, '%Y-%m-%d').isoweekday()
     if gig_isoweekday in [1,2,3,4,5]:
         return "20:30"
-    return "21:00"
+    return "21:30"
 
 def getData(event):
     date = formatDate(event.select_one('.start-date').text)
