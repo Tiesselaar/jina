@@ -15,13 +15,18 @@ def formatDate(dateString):
 def formatLocation(location_string):
     if "NDSM Theater" in location_string:
         return "NDSM Theater", "Scheepsbouwkade 4-6, 1033 WM Amsterdam, Nederland"
+    if "NDSM FUSE" in location_string.upper():
+        return "NDSM FUSE", "NDSM-Plein 29, 1033 WC Amsterdam"
     if location_string in ["NDSM Loods", "NDSM-Loods", "NDSM Terrein", "NDSM TERREIN", "-", "WUNDERKAMMER"]:
         return "NDSM-Loods", "NDSM-Plein 85, 1033 WC Amsterdam"
     raise Exception("Unknown location: " + location_string)
 
 def getData(event):
     venue, address = formatLocation(event.select_one('.wpem-event-location').text.strip())
+    title = event.select_one('.wpem-event-title h3.wpem-heading-text').text
     time = event.select_one('.wpem-event-date-time-text').text.split('-')[0].split('@')
+    if title == "Cotton Jazz on Tour (again) – wekelijks jazzconcerten elke zaterdag NDSM Theater/Café":
+        return
     if len(time) != 2:
         return
     else:
@@ -29,7 +34,7 @@ def getData(event):
     eventData = {
         'date': formatDate(event.select_one('.wpem-event-date-time-text').text),
         'time': time,
-        'title': event.select_one('.wpem-event-title h3.wpem-heading-text').text,
+        'title': title,
         'venue': venue,
         'price': "",
         'site': event.select_one('a.wpem-event-action-url').get('href'),

@@ -12,7 +12,7 @@ def formatDate(dateString):
 
 def formatTime(description):
     try:
-        time = re.search(r"\d\d[:.]\d\d", description)[0].replace(".",":")
+        time = re.search(r"(\d\d[:.]\d\d)[ .u]", description).group(1).replace(".",":")
         return time
     except:
         pass
