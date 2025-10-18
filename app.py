@@ -51,43 +51,43 @@ def try_update_agenda(args):
             "error": str(e)
             }
     
-def get(venues, debug, noval):
-    for calendar in venues:
-        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-            results = executor.map(try_update_agenda, [
-                (venue,
-                calendar,
-                debug,
-                noval) for venue in venues[calendar]
-                ])
-    
-        print_log("\n ---- {} ----".format(calendar))
-        for result in results:
-            print_log(result['venue'].ljust(20), end="")
-            if result['status'] == 'passed':
-                print_log(f"{result['count'] and ' ' or 'empty'}")
-                print(f"Count: {result['count']}")
-                print(f"https://jazzin.amsterdam/cal/{result['calendar']}/venues/{result['venue']}")
-            else:
-                print_log(result['error'].splitlines()[0])
-            print("")
-            print("-" * 80 * 2, end="\n\n")
-
-# def get(venues, debug):
+# def get(venues, debug, noval):
 #     for calendar in venues:
+#         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+#             results = executor.map(try_update_agenda, [
+#                 (venue,
+#                 calendar,
+#                 debug,
+#                 noval) for venue in venues[calendar]
+#                 ])
+    
 #         print_log("\n ---- {} ----".format(calendar))
-#         for venue in venues[calendar]:
-#             print_log(venue.ljust(20), end="")
-#             try:
-#                 count = handler.update_agenda(calendar, venue, debug)
-#                 print_log(f"passed ({count})".ljust(15) + ("empty set!" if count == 0 else ""))
-#                 print(f"https://jina3.vercel.app/cal/{calendar}/venues/{venue}")
-#             except Exception as e:
-#                 if debug:
-#                     raise e
-#                 print_log("⚠⚠⚠ exception".ljust(15) + str(e))
+#         for result in results:
+#             print_log(result['venue'].ljust(20), end="")
+#             if result['status'] == 'passed':
+#                 print_log(f"{result['count'] and ' ' or 'empty'}")
+#                 print(f"Count: {result['count']}")
+#                 print(f"https://jazzin.amsterdam/cal/{result['calendar']}/venues/{result['venue']}")
+#             else:
+#                 print_log(result['error'].splitlines()[0])
 #             print("")
 #             print("-" * 80 * 2, end="\n\n")
+
+def get(venues, debug, noval):
+    for calendar in venues:
+        print_log("\n ---- {} ----".format(calendar))
+        for venue in venues[calendar]:
+            print_log(venue.ljust(20), end="")
+            try:
+                count = handler.update_agenda(calendar, venue, debug, noval)
+                print_log(f"passed ({count})".ljust(15) + ("empty set!" if count == 0 else ""))
+                print(f"https://jina3.vercel.app/cal/{calendar}/venues/{venue}")
+            except Exception as e:
+                if debug:
+                    raise e
+                print_log("⚠⚠⚠ exception".ljust(15) + str(e))
+            print("")
+            print("-" * 80 * 2, end="\n\n")
 
 all_venues = {
     calendar: [venue for venue in getattr(handler.scrapers, calendar).__all__]
