@@ -26,7 +26,7 @@ def getData(event):
     event_data = {
         'date': formatDate(event.select_one('.datetime .date .start').text.strip()),
         'time': event.select_one('.datetime .time .start').text.replace(' uur', '').replace("Vanaf", "").strip().replace('.',':'),
-        'title': formatTitle(event.select_one('h2.title').text.strip(),event.select_one('div.subtitle').text.strip()),
+        'title': formatTitle(event.select_one('h3.title').text.strip(),event.select_one('div.subtitle').text.strip()),
         'venue': "De Kleine Komedie",
         'price': formatPrice(event.select('tr')),
         'site': "https://www.dekleinekomedie.nl" + event.select_one('.descMetaContainer a.desc').get('href'),

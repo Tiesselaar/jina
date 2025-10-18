@@ -32,6 +32,12 @@ def getData(event):
         elif "-podium-mozaiek" in site:
             venue = "Podium Mozaïek"
             address = "Bos en Lommerweg 191, 1055 DT Amsterdam"
+        elif "munganga-" in site:
+            venue = "Munganga Theater"
+            address = "Schinkelhavenstraat 27-HS, 1075 VP Amsterdam, Nederland"
+        elif "rietwijker-" in site:
+            venue = "De Rietwijker"
+            address = "Parlevinker 9, 1034 PX Amsterdam, Nederland"
         # elif "hassan-en-moos" in site:
         #     venue = "ROC Amsterdam - MBO College Centrum"
         #     address = "Elandsstraat 175, 1016 SB Amsterdam"

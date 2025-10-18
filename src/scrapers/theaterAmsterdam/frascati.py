@@ -56,6 +56,8 @@ def formatLocation(location, venue):
                 return "De Brakke Grond", "Nes 45, 1012 KD Amsterdam"
             if "VU Griffioen" in venue.text:
                 return "Theater de Griffioen", "De Boelelaan 1111, 1081 HV Amsterdam"
+            if "Rhoneweg" in venue.text:
+                return "De Sloot", "Rhoneweg 6-10, 1043 AH Amsterdam, Nederland"
             raise Exception('Unhandled case: Frescati op reis, wel in Amsterdam: ' + venue.text)
         return None, None
     location = location.replace(", Amsterdam", "")
@@ -82,7 +84,7 @@ def getData(event):
     return {
         'date': formatDate(event.select_one('.dateTimeInner .datetime .date .start').text.strip()),
         'time': event.select_one('.datetime .time .start').text.strip(),
-        'title': formatTitle(event.select_one('h2.title').text.strip(),event.select_one('div.subtitle').text.strip()),
+        'title': formatTitle(event.select_one('h3.title').text.strip(),event.select_one('div.subtitle').text.strip()),
         'venue': venue,
         'price': formatPrice(event.select('tr')),
         'site': site,

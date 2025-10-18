@@ -29,7 +29,7 @@ def getData(event):
     return {
         'date': formatDate(event.select_one('.top-date > span.start').text.strip()),
         'time': event.select_one('.top-date > span.time').text.split()[0],
-        'title': formatTitle(event.select_one('h2.title').text.strip(),event.select_one('div.subtitle').text.strip()),
+        'title': formatTitle(event.select_one('h3.title').text.strip(),event.select_one('div.subtitle').text.strip()),
         'venue': "Theater Bellevue",
         'price': formatPrice(event.select_one('.price > button.pricePopoverBtn')),
         'site': site,
