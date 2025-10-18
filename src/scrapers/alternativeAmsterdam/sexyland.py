@@ -41,13 +41,23 @@ def formatLocation(location):
         return "nachbar", "Nieuwezijds Voorburgwal 169, 1012 RK Amsterdam, Nederland"
     if location == "Proeflokaal ‘t Nieuwe Diep":
         return "Proeflokaal 't Nieuwe Diep", "Flevopark 13a, 1095 KE Amsterdam, Nederland"
+    if location == "Paleis van de Weemoed":
+        return "Paleis van de Weemoed", "Oudezijds Voorburgwal 15, 1012 EH Amsterdam"
+    if location == "Café Schiller":
+        return "Café Schiller", "Rembrandtplein 24-A, 1017 CV Amsterdam"
+    if location == "SEXYLAND SHOP":
+        return None, None
     raise Exception('Unkown location: ' + location)
 
 def getData(event):
     title = event.select_one('.information .title').contents[0]
+    if title == "SEXYLAND TRAM":
+        return
     if title.lower() == "past events":
         return
     venue, address = formatLocation(event.select_one('.information .location').contents[0])
+    if not venue:
+        return
     if "Den Haag" in address:
         return
     time, all_day = formatTime(event.select_one('.information .time'))

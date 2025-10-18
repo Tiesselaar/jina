@@ -11,7 +11,7 @@ def getData(event):
     return {
         'date': date,
         'time': time,
-        'title': event.select_one('font[size="4"] p font[size="5"]').contents[0],
+        'title': event.select_one('font[size="4"] p font[size="5"]').contents[0].text,
         'venue': "Einde van de Wereld",
         'price': "",
         'site': "https://www.eindevandewereld.nl/agenda1.php",

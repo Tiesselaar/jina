@@ -2,13 +2,18 @@ from src.tools.scraper_tools import myStrptime
 from src.tools.scraper_tools import makeSoup
 
 def formatDate(dateString):
+    if "–" in dateString:
+        return
     dateFormat = '%d %b %Y'
     date = myStrptime(dateString, dateFormat)
     return date.strftime('%Y-%m-%d')
 
 def getData(event):
+    date = formatDate(event.select_one('time.events-event-text-date').contents[0].strip())
+    if not date:
+        return
     return {
-        'date': formatDate(event.select_one('time.events-event-text-date').contents[0].strip()),
+        'date': date,
         'time': event.select_one('time.events-event-text-date').contents[2].split('-')[0].strip(),
         'title': event.select_one('h4 span').text,
         'venue': "Framer Framed",
