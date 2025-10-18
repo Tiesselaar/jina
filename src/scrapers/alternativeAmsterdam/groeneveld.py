@@ -10,12 +10,24 @@ def formatTime(date_time):
     if time:
         return time.text.split('@')[-1].strip()
 
-def formatAddress(address):
-    if 'of via G.J. Scheurleerweg 212c' in address:
-        return 'G.J. Scheurleerweg 212c, Amsterdam'
-    return address.replace('Amsterdam Noord', 'Amsterdam') \
-        .replace(' , ', ', ')
+def formatVenue(venue):
+    if venue:
+        return venue.text.strip() \
+            .replace('Buitenterrein', '') \
+            .replace('Gehele terrein', '') \
+            .replace('Het Machinegebouw', 'Het Groene Veld (Machinegebouw)')
+    else:
+        return "Het Groene Veld"
 
+def formatAddress(address):
+    if address:
+        address = address.text.strip()
+        if 'of via G.J. Scheurleerweg 212c' in address:
+            return 'G.J. Scheurleerweg 212c, Amsterdam'
+        return address.replace('Amsterdam Noord', 'Amsterdam') \
+            .replace(' , ', ', ')
+    else:
+        return "G.J. Scheurleerweg 212c, 1027 BA Amsterdam"
 
 
 def getData(event):
@@ -23,13 +35,10 @@ def getData(event):
         'date': event.select_one('header time').get('datetime'),
         'time': formatTime(event.select_one('header time')),
         'title': event.select_one('h3.tribe-events-calendar-list__event-title a').text.strip(),
-        'venue': event.select_one('address .tribe-events-calendar-list__event-venue-title').text.strip() \
-            .replace('Buitenterrein', '') \
-            .replace('Gehele terrein', '') \
-            .replace('Het Machinegebouw', 'Het Groene Veld (Machinegebouw)'),
+        'venue': formatVenue(event.select_one('address .tribe-events-calendar-list__event-venue-title')),
         'price': "",
         'site': event.select_one('h3.tribe-events-calendar-list__event-title a').get('href'),
-        'address': formatAddress(event.select_one('address .tribe-events-calendar-list__event-venue-address').text.strip()) 
+        'address': formatAddress(event.select_one('address .tribe-events-calendar-list__event-venue-address')) 
     }
 
 def getEventList():
