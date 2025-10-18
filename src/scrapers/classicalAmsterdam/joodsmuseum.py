@@ -2,7 +2,7 @@ from src.tools.scraper_tools import myStrptime
 from src.tools.scraper_tools import makeSoup, futureDate
 import re
 
-CALENDARS = ['classicalAmsterdam', 'theaterAmsterdam']
+CALENDARS = ['classicalAmsterdam']
 
 def formatDate(dateString):
     dateString += " 2024"
@@ -18,10 +18,12 @@ def get_location(info, more_info):
         return "Joods Museum", "Nieuwe Amstelstraat 1, 1011 PL Amsterdam"
     elif "Locatie: Hollandsche Schouwburg" in info:
         return "Hollandsche Schouwburg", "Plantage Middenlaan 24, 1018 DE Amsterdam"
-    elif "in het Joods Museum" in more_info:
-        return "Joods Museum", "Nieuwe Amstelstraat 1, 1011 PL Amsterdam"
     elif "Locatie: de Uilenburgersjoel" in info:
         return "Uilenburgersjoel", "Nieuwe Uilenburgerstraat 91, 1011 LM Amsterdam"
+    elif "Locatie: Rode Hoed" in info:
+        return "Rode Hoed", "Keizersgracht 102, 1015 CV Amsterdam"
+    elif "in het Joods Museum" in more_info:
+        return "Joods Museum", "Nieuwe Amstelstraat 1, 1011 PL Amsterdam"
     else:
         raise Exception('Unknown location')
 
@@ -33,13 +35,14 @@ def format_price(more_info):
 
 def getData(event):
     site = "https://jck.nl" + event.select_one('a.agenda-item').get('href')
+    print(site)
     subsoup = makeSoup(site)
     info = subsoup.select_one('.section--info-list').text
     more_info = "\n\n".join(section.text for section in subsoup.select(':is(.section--rich-text, .rich-text)'))
     venue, address = get_location(info, more_info)
     return {
         'date': formatDate(event.select_one('.base-card__meta .meta-line__after').text),
-        'time': re.search(r'Tijd: \d\d.\d\d', info)[0].split()[1].replace('.',':'),
+        'time': re.search(r'Tijd:( aanvang)? (\d\d.\d\d)', info).group(2).replace('.',':'),
         'title': event.select_one('h4.base-card__title').text,
         'venue': venue,
         'price': format_price(subsoup.text),
@@ -50,7 +53,7 @@ def getData(event):
 def getEventList():
     urls = {
         'classicalAmsterdam': 'https://jck.nl/agenda?type-event=concert',
-        'theaterAmsterdam': 'https://jck.nl/agenda?type-event=programma'
+        # 'theaterAmsterdam': 'https://jck.nl/agenda?type-event=programma'
     }
     return {
         calendar: makeSoup(urls[calendar]).select('li.agenda-overview__list__item')

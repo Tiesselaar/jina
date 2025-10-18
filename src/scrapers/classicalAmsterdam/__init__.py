@@ -3,10 +3,10 @@ __all__ = [
     "concertgebouw",
     "concertgemaal",
     "cva",
-    "embassy",
+    # "embassy", getting event time is absolutely impossible.
     "erc",
     "geelvinck",
-    "grachtenfestival2025",
+    # "grachtenfestival2025",
     "joodsmuseum",
     "kamukoza",
     "keizersgrachtkerk",
