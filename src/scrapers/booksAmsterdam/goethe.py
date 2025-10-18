@@ -25,6 +25,13 @@ def formatPrice(price):
     else:
         return ""
 
+def format_venue(venue):
+    if venue == "Goethe-Institut Amsterdam":
+        return "Goethe-Institut"
+    if venue == "Goethe-Institut Niederlande":
+        return "Goethe-Institut"
+    return venue
+
 def getData(event):
     site = event.select_one('.event-list-additional-info a.event-list-link').get('href')
     subsoup = makeSeleniumSoup(site, 2)
@@ -35,7 +42,7 @@ def getData(event):
         'date': formatDate(event.select_one('.event-list-date > p > time').text),
         'time': time,
         'title': event.select_one('h3.event-list-title').text,
-        'venue': subsoup.select_one('.event-calendar-location-container address > span').text,
+        'venue': format_venue(subsoup.select_one('.event-calendar-location-container address > span').text),
         'price': formatPrice(subsoup.select_one('.event-calendar-fact-list').text),
         'site': site,
         'address': formatAddress(subsoup.select_one('.event-calendar-location-container address'))
