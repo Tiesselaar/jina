@@ -22,9 +22,12 @@ def getData(event):
         row.select_one('td > strong').text: row.select('td')[1]
         for row in event.select('.row-details .txt > table tr')
     }
+    time = details.get('Tijd:')
+    if not time:
+        return
     return {
         'date': formatDate(details["Datum:"].text),
-        'time': details["Tijd:"].text.split("-")[0].strip(),
+        'time': time.text.split("-")[0].strip(),
         'title': event.select_one('.title h2').text,
         'venue': "Studio/K",
         'price': formatPrice(details.get("Prijs:")),
