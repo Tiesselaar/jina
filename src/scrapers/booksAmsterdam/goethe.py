@@ -18,7 +18,6 @@ def formatAddress(address):
     lines = address.contents[1:]
     return ", ".join(x for x in map(lambda line: line.text, lines) if x).strip()
 
-
 def formatPrice(price):
     price = re.search(r'\d+(,[(\d\d)-])? €', price)
     if price:
@@ -46,7 +45,6 @@ def getData(event):
         yield {**event_data, 'calendar': 'jazzAmsterdam'}
     if 'concert' in event.text.lower() or 'concert' in event.text.lower():
         yield {**event_data, 'calendar': 'classicalAmsterdam'}
-
 
 
 def getEventList():
