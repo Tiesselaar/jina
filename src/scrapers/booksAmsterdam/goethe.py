@@ -58,7 +58,7 @@ def getData(event):
 def getEventList():
     url = 'https://www.goethe.de/ins/nl/nl/ver.cfm#adress_IDtxt=Amsterdam'
     # url = 'https://www.goethe.de/ins/nl/nl/ver.cfm'
-    events = makeSeleniumSoup(url, 2).select_one('#event-list-js').select('li.event-item')[2:3]
+    events = makeSeleniumSoup(url, 2).select_one('#event-list-js').select('li.event-item')
     return events
 
 def bot():
