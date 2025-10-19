@@ -15,6 +15,7 @@ DATE_SELECTOR = ' > '.join([
 ])
 
 def formatDateTime(dateString):
+    print(dateString)
     dateFormat = '%d-%m-%Y - %H:%M'
     date = myStrptime(dateString, dateFormat)
     return date.strftime('%Y-%m-%d'), date.strftime('%H:%M')
@@ -73,7 +74,7 @@ def getData(event):
 def getEventList():
     url = 'https://theaterderichel.nl/agenda/'
     scroll = 4 * ["window.scrollTo(0, document.body.scrollHeight);"]
-    events = makeSeleniumSoup(url, 4, scroll).select('.elementor-widget-container .jet-listing-grid__item')
+    events = makeSeleniumSoup(url, 1, scroll).select('.elementor-widget-container .jet-listing-grid__item')
     return events
 
 def bot():
