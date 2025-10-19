@@ -15,9 +15,7 @@ def find_events(soup: BeautifulSoup):
     return events
 
 def find_site(event) -> str:
-    if event['presale']:
-        return event['presale']
-    return URL
+    return "https://www.plein-theater.nl/agenda/" + str(event['id'])
 
 def find_date(event) -> str:
     return datetime.fromtimestamp(event['start'], tz=ZoneInfo("Europe/Amsterdam")).strftime('%Y-%m-%d')
