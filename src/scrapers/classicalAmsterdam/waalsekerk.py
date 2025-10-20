@@ -8,6 +8,10 @@ def formatDate(dateString):
     dateString = dateString.split('om')[0]
     dateString = dateString.split('van')[0]
     dateString = dateString.strip().replace(".","")
+    ad_hoc = dateString.split(' t/m ')
+    if len(ad_hoc) == 2 and ad_hoc[0] == ad_hoc[1]:
+        dateString = ad_hoc[0]
+
     dateFormat = '%a %d %b %Y'
     date = myStrptime(dateString, dateFormat).date()
     return date.strftime('%Y-%m-%d')
