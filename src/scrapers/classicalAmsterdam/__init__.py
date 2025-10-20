@@ -27,6 +27,5 @@ __all__ = [
     "thomas",
     "uilenburgersjoel",
     "waalsekerk",
-    "westerkerk",
 ]
 from . import *
