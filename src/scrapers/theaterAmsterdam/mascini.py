@@ -16,7 +16,9 @@ def formatTime(time):
     return time
 
 def formatPrice(price):
-    price = price.split('\u2013')[0]
+    if not price:
+        return ""
+    price = price.text.split('\u2013')[0]
     price = price.replace('kaarten','').replace(' ','').replace(',00','')
     return price
 
@@ -25,16 +27,16 @@ def getData(event):
     subsoup = makeSoup(site)
     if "Geannuleerd" in subsoup.select_one('.databox .datum-bestel').text:
         return
-    info_div = event.select_one(':scope > .itemtext')
-    times = info_div.select('.evenementtijd h4')
+    info_div = event.select_one('.evenement-datumtijd-info > .evenement-datumtijd')
+    times = info_div.select('.evenement-tijd h4')
     for time in times:
         event_year = event.get('href').split('?datum=')[1][0:4]
         event_data =  {
             'date': formatDate(info_div.select_one('h3').text, event_year),
             'time': formatTime(time.text),
-            'title': info_div.select_one('h1').text,
+            'title': event.select_one('.itemtext > h1').text,
             'venue': "Theater Mascini",
-            'price': formatPrice(subsoup.select_one('.datum-bestel .prijzen-info .prijs').text),
+            'price': formatPrice(subsoup.select_one('.datum-bestel .prijzen-info .prijs')),
             'site': site,
             'address': 'Zeedijk 24a, 1012 AZ Amsterdam'
         }

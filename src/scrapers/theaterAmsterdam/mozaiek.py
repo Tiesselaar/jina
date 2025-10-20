@@ -11,7 +11,7 @@ def formatDate(dateString):
 
 def getData(event):
     title, date_time = event.select('a > div > div > div')
-    date, time = formatDate(date_time.text)
+    date, time = formatDate(date_time.select_one('div > div > div > div > div').text)
     eventData = {
         'date': date,
         'time': time,
@@ -29,7 +29,7 @@ def getData(event):
 
 def getEventList():
     url = 'https://www.podiummozaiek.nl/programma/agenda'
-    events = makeSeleniumSoup(url, 1).select('li[data-event-id]:not([data-event-id=""])')
+    events = makeSeleniumSoup(url, 2).select('li[data-event-id]:not([data-event-id=""])')
     return events
 
 def bot():
