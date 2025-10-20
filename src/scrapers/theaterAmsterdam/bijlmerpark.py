@@ -18,6 +18,8 @@ def formatLocation(venue):
         return "Bijlmer Parktheater", "Anton de Komplein 240, 1102 DR Amsterdam"
     elif "SHEBANG" in venue:
         return "SHEBANG", "Hettenheuvelweg 8, 1101 BN Amsterdam"
+    elif "Theater Zuidplein" in venue:
+        return None, None
     else:
         raise Exception('Unknown venue: ' + venue)
     
@@ -25,6 +27,8 @@ def getData(event):
     site = "https://www.bijlmerparktheater.nl" + event.select_one('a.desc').get('href')
     venueTag = event.select_one('.venue').text.strip()
     venue, address = formatLocation(venueTag)
+    if not venue:
+        return
     event_data = {
         'date': formatDate(event.select_one('.dateTimeInner .datetime .date .start').text.strip()),
         'time': event.select_one('.dateTimeInner .datetime .time .start').text.strip(),

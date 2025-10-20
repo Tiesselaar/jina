@@ -13,13 +13,16 @@ def formatDate(dateString, noday = False):
     return date.strftime('%Y-%m-%d')
   
 def formatPrice(price):
+    print(price)
     price = price.replace("Engelse Boventiteling, ", "")
     if price == "wachtlijst":
         return "s.o."
     if price == "":
         return price
-    price = re.search(r"va € \d+,\d\d", price)[0]
-    return price.replace("va ", "").replace(" ","")
+    price = re.search(r"va € \d+,\d\d", price)
+    if price:
+        return price[0].replace("va ", "").replace(" ","")
+    return ""
 
 def getData(event, shift=0):
     if shift > 4:

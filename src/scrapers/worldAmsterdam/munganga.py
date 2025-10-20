@@ -4,12 +4,14 @@ import re
 CALENDARS = ['worldAmsterdam', 'jazzAmsterdam']
 
 def format_date(date_string):
+    print(date_string)
     replacements = {
         'Thur': 'Thu',
         'Okt': 'Oct',
         'Zo ': 'Sun ',
         'Sept': 'Sep',
         'Set': 'Sep',
+        'Zon ': 'Sun ',
     }
     for old, new in replacements.items():
         date_string = date_string.replace(old, new)
@@ -61,7 +63,6 @@ def getData(event):
     yield {**eventData, 'calendar': 'worldAmsterdam'}
 
 def getEventList():
-    venue_name = 'munganga'
     url = 'https://munganga.nl/'
     events = makeSoup(url, verify=False).select('div.woocommerce ul.products li.product')
     return events

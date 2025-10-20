@@ -11,7 +11,7 @@ def formatDate(dateString):
     dateString += " 2024"
     dateFormat = '%a %d %b %Y'
     date = myStrptime(dateString, dateFormat).date()
-    date = futureDate(date)
+    date = futureDate(date, 60)
     return date.strftime('%Y-%m-%d')
 
 def getPrice(event):
