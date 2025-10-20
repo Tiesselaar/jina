@@ -12,6 +12,7 @@ def formatDate(date_string):
         '%d / %m / %Y - %I.%M%p',
         '%d / %m / %Y - %I.%M %p',
         '%d / %m / %Y - %I.%M',
+        '%d / %m / %Y - %I:%M %p',
     ]
     for dateFormat in dateFormats:
         try:
