@@ -16,6 +16,7 @@ __all__ = [
     "plantagedok",
     "rozenstraat",
     "ruigoord",
+    "sering",
     "sexyland",
     "squatradar",
     "studioK",
