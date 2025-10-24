@@ -13,7 +13,7 @@ def formatDate(dateString):
 def format_price(price):
     if 'free' in price.lower():
         return 'free'
-    return price.strip().replace(' ', '')
+    return price.strip().replace('€ ', '€')
 
 def getData(event_date):
     event, date = event_date
