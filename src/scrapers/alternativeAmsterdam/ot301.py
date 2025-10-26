@@ -10,6 +10,13 @@ def formatDate(dateString):
     date = futureDate(date)
     return date.strftime('%Y-%m-%d')
 
+def format_price(price):
+    if 'free' in price.lower():
+        return 'free'
+    if 'donation' in price.lower():
+        return 'pwyw'
+    return price.strip().replace('€ ', '€')
+
 def getData(event_date):
     event, date = event_date
     location, time, price = event.select_one('span.meta').text.split(' // ')
@@ -18,7 +25,7 @@ def getData(event_date):
         'time': time.strip().rjust(5, '0'),
         'title': location.strip() + ": " + event.select_one('span.title').text,
         'venue': "OT301",
-        'price': price.strip().replace(' ', ''),
+        'price': format_price(price),
         'site': 'https://www.ot301.nl' + event.get('href'),
         'address': "Overtoom 301, 1054 HW Amsterdam"
     }
