@@ -2,6 +2,7 @@ __all__ = [
     "alternativeAmsterdam",
     "booksAmsterdam",
     "classicalAmsterdam",
+    "clubAmsterdam",
     "danceAmsterdam",
     "jazzAmsterdam",
     "popAmsterdam",

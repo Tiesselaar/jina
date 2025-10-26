@@ -3,6 +3,7 @@ shortcuts = {
     "-a": "alternativeAmsterdam",
     "-b": "booksAmsterdam",
     "-c": "classicalAmsterdam",
+    "-cl": "clubAmsterdam",
     "-d": "danceAmsterdam",
     "-j": "jazzAmsterdam",
     "-p": "popAmsterdam",
