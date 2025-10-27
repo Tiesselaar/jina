@@ -76,7 +76,6 @@ def bot():
             time_str = event.get("startTime")
             title = event.get("title")
             url_path = event.get("contentUrl")
-            full_url = f"https://ra.co{url_path}" if url_path else None
 
             formatted_events.append({
                 'date': date_str.split('T')[0],
@@ -84,7 +83,7 @@ def bot():
                 'title': title,
                 'venue': "TILLATEC",
                 'price': "",
-                'site': full_url,
+                'site': "https://www.tillatec.com/events",
                 'address': "Dr Jan van Breemenstraat 1, 1056AB, Amsterdam"
             })
 
