@@ -75,8 +75,8 @@ def bot():
             date_str = event.get("date")
             time_str = event.get("startTime")
             title = event.get("title")
-            url_path = event.get("contentUrl")
-            full_url = f"https://ra.co{url_path}" if url_path else None
+            # url_path = event.get("contentUrl")
+            # full_url = f"https://ra.co{url_path}" if url_path else None
 
             formatted_events.append({
                 'date': date_str.split('T')[0],
