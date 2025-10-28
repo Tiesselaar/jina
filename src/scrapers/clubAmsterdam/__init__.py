@@ -1,4 +1,5 @@
 __all__ = [
+    "akhnaton",
     "levenslang",
     "tillatec",
 ]
