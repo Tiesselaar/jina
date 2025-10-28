@@ -12,6 +12,7 @@ def formatDate(dateString):
 
 def getData(event):
     site = event.select_one('.w-grid-item-h a').get('href')
+    print(site)
     subsoup = makeSoup(site)
     description = subsoup.select_one('section:has(h1.post_title) + section + div').text
     eventData = {
@@ -33,4 +34,10 @@ def getEventList():
     return events
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

@@ -35,5 +35,7 @@ def getEventList():
     return events
 
 def bot():
-    return map(getData, getEventList())
-    # return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        results = list(executor.map(getData, getEventList()))
+    return results

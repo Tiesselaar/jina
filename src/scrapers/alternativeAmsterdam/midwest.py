@@ -49,6 +49,7 @@ def getCalendar(description):
 
 def getData(event):
     site = event.select_one('a.agenda-overview_link').get('href')
+    print(site)
     description = makeSoup(site).select_one('article').text
     time = formatTime(description)
     if not time:
@@ -82,4 +83,10 @@ def getEventList():
     return events
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

@@ -39,4 +39,10 @@ def getEventList():
     return makeSoup(url).select('div[data-element="agenda"] ol[class^="styles_event-list-day"] > li')
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

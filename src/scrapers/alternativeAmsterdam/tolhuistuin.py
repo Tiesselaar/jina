@@ -28,6 +28,7 @@ def formatPrice(sidebarInfo):
 
 def getData(event):
     site = event.get('href')
+    print(site)
     subsoup = makeSoup(site)
     sidebarInfo = subsoup.select_one('.sidebar__information').text
     eventData = {
@@ -53,4 +54,10 @@ def getEventList():
     return events
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )
