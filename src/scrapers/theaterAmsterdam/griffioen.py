@@ -14,6 +14,7 @@ def formatTime(time):
 
 def getData(event):
     site = 'https://griffioen.vu.nl' + event.get('onclick').split("'")[1]
+    print(site)
     subsoup = makeSoup(site)
     description = "\n".join(map(lambda x: x.text, subsoup.select('.contentblock .textblock p')))
     # shop = makeSoup('https://griffioen.vu.nl' + subsoup.select_one('.conversion-order > a[data-hook^="order-link"]').get('href'))
@@ -36,4 +37,10 @@ def getEventList():
     return [event for page in range(1,5) for event in makeSeleniumSoup(url + str(page)).select('.program-item')]
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

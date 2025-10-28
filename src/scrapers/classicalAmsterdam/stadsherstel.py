@@ -24,6 +24,7 @@ def formatPrice(details):
 
 def getData(event):
     site = event.select_one('a.grid-block').get('href')
+    print(site)
     subsoup = makeSoup(site)
     tickets = subsoup.select_one(".agenda-speellijst > table.speellijst tbody").select('tr')
     for ticket in tickets:
@@ -52,6 +53,18 @@ def getEventList():
         raise Exception("Fewer gigs than expected...")
     return events
 
+# def bot():
+#     events = getEventList()
+#     return ({**gig, 'calendar': calendar} for calendar in events for event in events[calendar] for gig in getData(event))
+
+from concurrent.futures import ThreadPoolExecutor
+
 def bot():
     events = getEventList()
-    return ({**gig, 'calendar': calendar} for calendar in events for event in events[calendar] for gig in getData(event))
+    def task(args):
+        calendar, event = args
+        return [ {**gig, 'calendar': calendar} for gig in getData(event) ]
+    all_events = [(calendar, event) for calendar in events for event in events[calendar]]
+    with ThreadPoolExecutor() as executor:
+        results = executor.map(task, all_events)
+    return (gig for sublist in results for gig in sublist)

@@ -24,6 +24,7 @@ def formatPrice(price):
 
 def getData(event):
     site = event.get('href')
+    print(site)
     subsoup = makeSoup(site)
     if "Geannuleerd" in subsoup.select_one('.databox .datum-bestel').text:
         return
@@ -51,4 +52,10 @@ def getEventList():
     return events
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

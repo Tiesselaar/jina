@@ -27,21 +27,25 @@ def formatPrice(eventText):
 
 def getData(event):
     site = event.select_one('a').get('href')
+    print(site)
     subsoup = makeSoup(site)
 
     if "jazz" in subsoup.select_one('#main .entry-content').text.lower():
         try:
-            eventDate, eventTime = formatDateTime(subsoup.select_one('.wpb-content-wrapper .wpb_wrapper > h3').text)
+            eventDate, eventTime = formatDateTime(subsoup.select_one('div > div > div.vc_row.wpb_row.vc_row-fluid.vc_column-gap-25 > div.wpb_column.vc_column_container.vc_col-sm-8 > div > div > h5').text)
         except:
             try:
-                eventDate, eventTime = formatDateTime(subsoup.select_one('.wpb-content-wrapper .wpb_wrapper > h3 > span').text)
+                eventDate, eventTime = formatDateTime(subsoup.select_one('.wpb-content-wrapper .wpb_wrapper > h3').text)
             except:
                 try:
-                    eventDate, eventTime = formatDateTime(subsoup.select('.wpb-content-wrapper .wpb_wrapper > h2')[1].text)
+                    eventDate, eventTime = formatDateTime(subsoup.select_one('.wpb-content-wrapper .wpb_wrapper > h3 > span').text)
                 except:
-                    print('Date failed:')
-                    print(site)
-                    return
+                    try:
+                        eventDate, eventTime = formatDateTime(subsoup.select('.wpb-content-wrapper .wpb_wrapper > h2')[1].text)
+                    except:
+                        print('Date failed:')
+                        print(site)
+                        return
 
         if eventDate and eventTime:
             subtitleElement = subsoup.select_one('.wpb-content-wrapper h1')
@@ -63,6 +67,7 @@ def getEventList():
     return events
 
 def bot():
-    # return sorted([x for x in map(getData, getEventList()) if x], key=lambda x: x['date'] + x['time'])
-    return map(getData, getEventList())
-
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        results = list(executor.map(getData, getEventList()))
+    return results

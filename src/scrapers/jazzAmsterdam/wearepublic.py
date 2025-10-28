@@ -42,17 +42,18 @@ def formatPrice(pricetag):
 
 def getData(event):
     site = 'https://www.wearepublic.nl' + event.get('href')
+    print(site)
     subsoup = makeSoup(site)
     date_time = event.select_one('.event-date').text
     if 'tot' in date_time:
         return
     date, time = formatDate(date_time)
     venue, address = formatVenue(event.select_one('span.event-venue').text.strip())
-    try:
-        description = subsoup.select_one('main.template__main').text.lower()
-    except:
-        print('sjldfkjslkdfjldskjflksdjflksjdflkjdslfkj')
-        description = makeSeleniumSoup(site, 1).select_one('main.template__main').text.lower()
+    # try:
+    description = subsoup.select_one('main.template__main').text.lower()
+    # except:
+    #     print('sjldfkjslkdfjldskjflksdjflksjdflkjdslfkj')
+    #     description = makeSeleniumSoup(site, 1).select_one('main.template__main').text.lower()
     if 'jazz' in description:
         return {
             'date': date,
@@ -72,6 +73,13 @@ def getEventList():
         raise Exception('Fewer events than expected!!!')
     return events[:70]
 
+# def bot():
+#     return map(getData, getEventList())
+#     # return (gig for event in getEventList() for gig in getData(event))
+
+
 def bot():
-    return map(getData, getEventList())
-    # return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        results = list(executor.map(getData, getEventList()))
+    return results

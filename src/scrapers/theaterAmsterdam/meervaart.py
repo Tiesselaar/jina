@@ -25,6 +25,7 @@ def formatPrice(rows):
 
 def getData(event):
     site = 'https://meervaart.nl/' + event.select_one('a').get('href')
+    print(site)
     subsoup = makeSoup(site)
     date_time_tags = [date for date in subsoup.select('span.h6') if re.search(r'\d:\d\d', date.text.strip())]
     for date in date_time_tags:
@@ -51,4 +52,10 @@ def getEventList():
     return events
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

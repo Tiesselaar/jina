@@ -41,6 +41,7 @@ def formatPrice(info):
 
 def getData(event):
     site = event.select_one('a.jet-engine-listing-overlay-link').get('href')
+    print(site)
     subsoup = makeSoup(site)
     description = subsoup.select_one('[data-elementor-type="wp-post"]')
     try:
@@ -78,7 +79,13 @@ def getEventList():
     return events
 
 def bot():
-    gigs =  [gig for event in getEventList() for gig in getData(event)]
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        gigs = [
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        ]
     if len(gigs) < 10:
         raise Exception('Fewer events than expected: ' + str(len(gigs)))
     return gigs

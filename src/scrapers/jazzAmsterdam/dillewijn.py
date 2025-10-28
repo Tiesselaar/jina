@@ -9,6 +9,7 @@ def formatDate(dateString):
 
 def getData(event):
     site = event.select_one('a[class!="kaarten"][href^="https://dedillewijn.nl/voorstelling"]').get('href')
+    print(site)
     subsoup = makeSoup(site)
     return {
         'date': formatDate(event.select_one('.date').text),
@@ -26,4 +27,7 @@ def getEventList():
     return events
 
 def bot():
-    return map(getData, getEventList())
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        results = list(executor.map(getData, getEventList()))
+    return results

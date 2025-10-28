@@ -33,6 +33,7 @@ def formatAddress(maps_link):
 
 def getData(event):
     site = 'https://www.paradiso.nl' + event.get('href')
+    print(site)
     subsoup = makeSoup(site)
     datePlaceTime = subsoup.select(".chakra-container > div > div > p.chakra-text")
 
@@ -62,5 +63,12 @@ def getEventList():
     events = makeSeleniumSoup(url, 1, script).select('a[href*="/program"]:not(.chakra-link)')
     return events
 
+
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

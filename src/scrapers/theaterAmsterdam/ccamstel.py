@@ -18,6 +18,7 @@ def formatPrice(info_lines):
 
 def getData(event):
     site = "https://ccamstel.nl" + event.select_one('a[href^="/programma"]').get('href')
+    print(site)
     price = formatPrice(makeSoup(site).select('ul.info-list li'))
     dates = event.select('.dates-block > div.row > div')
     for date in dates:
@@ -37,4 +38,10 @@ def getEventList():
     return events
 
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

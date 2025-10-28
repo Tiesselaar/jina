@@ -33,6 +33,7 @@ def getData(event_calendar):
         "popAmsterdam": "Pop",
     }
     title = title.replace(tag[calendar] + ' | ', '')
+    print(title)
     return {
         'date': date,
         'time': time,
@@ -45,13 +46,15 @@ def getData(event_calendar):
     }
 
 def getEventList():
-    url = 'https://www.conservatoriumvanamsterdam.nl/agenda/'
-    paths = {
-        "jazzAmsterdam": "jazz",
-        "classicalAmsterdam": "klassiek",
-        "popAmsterdam": "pop",
+    url = {
+        "jazzAmsterdam": "https://www.conservatoriumvanamsterdam.nl/agenda/jazz",
+        "classicalAmsterdam": "https://www.conservatoriumvanamsterdam.nl/agenda/klassiek",
+        "popAmsterdam": "https://www.conservatoriumvanamsterdam.nl/agenda/pop",
     }
-    return [[event, calendar] for calendar in CALENDARS for event in makeSoup(url + paths[calendar]).select('.agenda-list-event')]
+    return [[event, calendar] for calendar in CALENDARS for event in makeSoup(url[calendar]).select('.agenda-list-event')]
 
 def bot():
-    return map(getData, getEventList())
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        results = list(executor.map(getData, getEventList()))
+    return results
