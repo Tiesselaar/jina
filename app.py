@@ -83,7 +83,7 @@ def get(venues, debug, noval):
                 count = handler.update_agenda(calendar, venue, debug, noval)
                 elapsed_time = int(time.time() - start)
 
-                print_log(f"passed {(str(elapsed_time) + 's').rjust(4)} ({count})".ljust(15) + ("empty set!" if count == 0 else ""))
+                print_log(f"passed {(str(elapsed_time) + 's').rjust(4)} ({count})".ljust(20) + ("empty set!" if count == 0 else ""))
                 print(f"https://jina3.vercel.app/cal/{calendar}/venues/{venue}")
             except Exception as e:
                 if debug:
@@ -137,3 +137,5 @@ if __name__=="__main__":
     print(log_string)
     if mail: email(log_string)
     log_file.close()
+
+    
