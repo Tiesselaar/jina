@@ -1,0 +1,46 @@
+query GET_EVENTS_LISTING(
+  $indices: [IndexType!]
+  $aggregations: [ListingAggregationType!]
+  $filters: [FilterInput]
+  $pageSize: Int
+  $page: Int
+  $sortField: FilterSortFieldType
+  $sortOrder: FilterSortOrderType
+) {
+  listing(
+    indices: $indices
+    aggregations: $aggregations
+    filters: $filters
+    pageSize: $pageSize
+    page: $page
+    sortField: $sortField
+    sortOrder: $sortOrder
+  ) {
+    data {
+      ...eventFragment
+    }
+  }
+}
+
+fragment eventFragment on Event {
+  id
+  title
+  startTime
+  contentUrl
+  venue {
+    name
+    address
+  }
+  area {
+    id
+    name
+  }
+  tickets(queryType: AVAILABLE) {
+    id
+    title
+    priceRetail
+    currency {
+      code
+    }
+  }
+}
