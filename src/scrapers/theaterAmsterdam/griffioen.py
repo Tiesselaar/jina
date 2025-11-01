@@ -12,10 +12,21 @@ def formatDate(dateString):
 def formatTime(time):
     return time.split('-')[1].split()[0].replace(".",":")
 
+def format_location(location_string):
+    if location_string in ["Grote zaal", "Kleine zaal"]:
+        return "Theater de Griffioen", "De Boelelaan 1111, 1081 HV Amsterdam"
+    if location_string == "Tuindorpkerk, Professor Suringarlaan 1, Utrecht":
+        return "Tuindorpkerk (Utrecht)", "Professor Suringarlaan 1, Utrecht"
+    if location_string == "Zuiderkerk in Amsterdam":
+        return "Zuiderkerk", "Zuiderkerkhof 72, 1011 HJ Amsterdam"
+    raise Exception("Unknown location: " + location_string)
+
+
 def getData(event):
     site = 'https://griffioen.vu.nl' + event.get('onclick').split("'")[1]
-    print(site)
     subsoup = makeSoup(site)
+    location = subsoup.select_one('.conversion-details time + span').text.strip()
+    venue, address = format_location(location)
     description = "\n".join(map(lambda x: x.text, subsoup.select('.contentblock .textblock p')))
     # shop = makeSoup('https://griffioen.vu.nl' + subsoup.select_one('.conversion-order > a[data-hook^="order-link"]').get('href'))
     # print(site)
@@ -23,10 +34,10 @@ def getData(event):
         'date': formatDate(event.select_one('time').text),
         'time': formatTime(event.select_one('time').text),
         'title': event.select_one('strong').text.replace('\u00a0', ' '),
-        'venue': "Theater de Griffioen",
+        'venue': venue,
         'price': "", # formatPrice(shop.select_one('span[data-hook="price"]').text),
         'site': site,
-        'address': "De Boelelaan 1111, 1081 HV Amsterdam",
+        'address': address,
     }
     yield { **eventData, 'calendar': "theaterAmsterdam" }
     if 'jazz' in description:
