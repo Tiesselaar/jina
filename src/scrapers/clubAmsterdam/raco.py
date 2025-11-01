@@ -36,20 +36,17 @@ def get_events(id):
         "(KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
         "Content-Type": "application/json",
     }
-    return requests.post(url, headers=headers, json=payload(id)).json()['data']['listing']['data']
+    return requests.post(url, headers=headers, json=payload(id)).json()['data']['listing']['data'] or []
 
 
 def get_event_data(venue, event):
-    # url_path = event.get("contentUrl")
-    # full_url = f"https://ra.co{url_path}" if url_path else None
-
     return {
         'date': event['startTime'].split('T')[0],
         'time': event['startTime'].split('T')[1][:5],
         'title': event['title'],
         'venue': event['venue']['name'].replace(' Amsterdam', ''),
         'price': "",
-        'site': venue['site'],
+        'site': venue.get('site') or "https://ra.co{}".format(event["contentUrl"]),
         'address': event['venue']['address'],
     }
 
@@ -57,9 +54,30 @@ def get_event_data(venue, event):
 def bot():
     venues = [
         {
+            "id": 188627,
+            "venue": "Borisov",
+            "site": "https://borisov.amsterdam",
+        },
+        {
+            "id": 69321,
+            "venue": "Warehouse Elementenstraat"
+        },
+        {
             "id": 206210,
             "venue": "Levenslang",
             "site": "https://www.levenslang.amsterdam/programma"
+        },
+        {
+            "id": 109140,
+            "venue": "John Doe"
+        },
+        {
+            "id": 243352,
+            "venue": "Nachbar",
+        },
+        {
+            "id": 250599,
+            "venue": "San Francisco",
         },
         {
             "id": 232813,
