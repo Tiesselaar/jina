@@ -1,7 +1,7 @@
 from src.tools.scraper_tools import myStrptime, makeSoup
 import re
 
-CALENDARS = ['worldAmsterdam', 'jazzAmsterdam']
+CALENDARS = ['popAmsterdam', 'jazzAmsterdam']
 
 def format_date(date_string):
     print(date_string)
@@ -60,7 +60,7 @@ def getData(event):
     }
     if "jazz" in date_title.lower():
         yield {**eventData, 'calendar': 'jazzAmsterdam'}
-    yield {**eventData, 'calendar': 'worldAmsterdam'}
+    yield {**eventData, 'calendar': 'popAmsterdam'}
 
 def getEventList():
     url = 'https://munganga.nl/'
