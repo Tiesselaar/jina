@@ -65,7 +65,7 @@ def getData(event):
 def getEventList():
     url = 'https://munganga.nl/'
     events = makeSoup(url, verify=False).select('div.woocommerce ul.products li.product')
-    return events
+    return events[1:]
 
 def bot():
     return (gig for event in getEventList() for gig in getData(event))
