@@ -18,7 +18,8 @@ def formatTitle(title):
     return title
 
 def getData(event):
-    if "kerstdag gesloten" in event.text.lower():
+    title = formatTitle(event.select_one('.d-title').text.strip())
+    if "gesloten" in title.lower() or "closed" in title.lower():
         return
     if 'sketch jam' in event.select_one('.d-text').text.lower() + event.select_one('.d-title').text.lower():
         return
@@ -26,7 +27,7 @@ def getData(event):
     return {
         'date': event_date,
         'time': event_time,
-        'title': formatTitle(event.select_one('.d-title').text.strip()),
+        'title': title,
         'venue': "Café de Pianist",
         'price': "gratis",
         'site': "https://www.cafedepianist.nl/agenda-live-muziek/",
