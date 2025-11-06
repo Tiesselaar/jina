@@ -18,7 +18,7 @@ def formatTitle(title):
     return title
 
 def getData(event):
-    if "Closed for Renovation" in event.text:
+    if "kerstdag gesloten" in event.text.lower():
         return
     if 'sketch jam' in event.select_one('.d-text').text.lower() + event.select_one('.d-title').text.lower():
         return
