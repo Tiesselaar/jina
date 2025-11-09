@@ -5,6 +5,7 @@ __all__ = [
     "cva",
     # "embassy", getting event time is absolutely impossible.
     "erc",
+    "gamalanhuis",
     "geelvinck",
     # "grachtenfestival2025",
     "joodsmuseum",
