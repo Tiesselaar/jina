@@ -36,7 +36,8 @@ def getData(event):
     }
     if (
         "JⒶZZ" in event.text or
-        "jazz" in event.text.lower()
+        "jazz" in event.text.lower() or
+        "herrie" in event.text.lower()
     ):
         yield {**eventData, 'calendar': 'jazzAmsterdam'}
 
