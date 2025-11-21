@@ -16,7 +16,7 @@ def getData(event):
         return {
             'date': date,
             'time': time,
-            'title': "-".join(event.text.split('-')[2:]).strip(),
+            'title': "-".join(event.text.split('-')[3:]).strip(),
             'venue': "Breugem Meeting Point",
             'price': "gratis",
             'site': "https://www.breugemmeetingpoint.nl/agenda",
