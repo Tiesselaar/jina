@@ -43,6 +43,8 @@ def formatLocation(location, venue):
             return None, None
         elif "Het Nationale Theater" in venue.text:
             return None, None
+        elif "IDRA Teatro" in venue.text:
+            return None, None
         else:
             raise Exception('Unhandled case of missing location: ' + venue.text.strip())
     location = location.text.strip()

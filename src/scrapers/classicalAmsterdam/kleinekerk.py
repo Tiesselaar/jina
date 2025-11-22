@@ -21,7 +21,7 @@ def getData(data):
     return {
         'date': formatDate(event.select_one('time > .tribe-event-date-start').text),
         'time': event.select_one('time > .tribe-event-time').text,
-        'title': event.select_one('h3.tribe-events-calendar-list__event-title > a').text.strip(),
+        'title': event.select_one('h4.tribe-events-calendar-list__event-title > a').text.strip(),
         'venue': event.select_one('address .tribe-events-calendar-list__event-venue-title').text.strip(),
         'price': "",
         'site': site,
@@ -39,7 +39,7 @@ def getEventList():
     ]
     def make_url_pair(concert):
         return [
-            concert.select_one('h3.tribe-events-calendar-list__event-title > a').get('href'),
+            concert.select_one('h4.tribe-events-calendar-list__event-title > a').get('href'),
             concert
         ]
     

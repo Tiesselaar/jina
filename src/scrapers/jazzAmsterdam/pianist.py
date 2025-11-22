@@ -19,9 +19,11 @@ def formatTitle(title):
 
 def getData(event):
     title = formatTitle(event.select_one('.d-title').text.strip())
-    if "gesloten" in title.lower() or "closed" in title.lower():
-        return
-    if 'sketch jam' in event.select_one('.d-text').text.lower() + event.select_one('.d-title').text.lower():
+    description = event.select_one('.d-text').text.strip()
+    skip_words = [
+        "gesloten", "closed", "no music tonight", "karaoke", "sketch jam"
+    ]
+    if any(skip_word in (title + description).lower() for skip_word in skip_words):
         return
     event_date, event_time = formatDate(event.select_one('.d-when').text)
     return {

@@ -38,6 +38,9 @@ def getData(event):
         elif "rietwijker-" in site:
             venue = "De Rietwijker"
             address = "Parlevinker 9, 1034 PX Amsterdam, Nederland"
+        elif "theater-van-deyssel" in site:
+            venue = "Theater van Deyssel"
+            address = "Lodewijk van Deysselstraat 91, Amsterdam"
         # elif "hassan-en-moos" in site:
         #     venue = "ROC Amsterdam - MBO College Centrum"
         #     address = "Elandsstraat 175, 1016 SB Amsterdam"

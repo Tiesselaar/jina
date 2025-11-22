@@ -44,6 +44,8 @@ def getData(event):
     date_title = event.select_one('a h2.woocommerce-loop-product__title').text
     if "Fri 3 & Sat 04 Oct 2025" in date_title:
         return
+    if "book: night spaces as" in date_title.lower():
+        return
     date, time, title = format_date_time(date_title)
     site = event.select_one('a').get('href')
     if not time:

@@ -40,7 +40,7 @@ def get_location(subsoup):
         return 'Balie', 'Kleine-Gartmanplantsoen 10, 1017 RR Amsterdam'
     if location in ['Salon', 'Grote Zaal', 'Pleinzaal', 'Filmzaal', 'Leidseplein']:
         return 'Balie', 'Kleine-Gartmanplantsoen 10, 1017 RR Amsterdam'
-    elif location in ['Rotterdam', 'Groningen', 'Cultura Ede', 'Paardenkathedraal, Utrecht']:
+    elif location in ['Rotterdam', 'Groningen', 'Cultura Ede', 'Paardenkathedraal, Utrecht', 'Oostkerk, Middelburg']:
         return None, None
     else:
         raise Exception('Unknown location, planned but probably to strict error: ' + location)

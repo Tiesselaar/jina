@@ -8,10 +8,15 @@ def formatLocation(locationString):
         return "Bau", "Van Diemenstraat 408-410"
     if "Bau, Entrepotdok 4 Amsterdam" in locationString:
         return "Bau", "Entrepotdok 4, 1018 AD Amsterdam"
+    if "Korzo, The Hague" in locationString or \
+        "TALA, Zagreb" in locationString:
+        return None, None
     raise Exception("Unknown location: " + locationString)
 
 def getData(event):
     venue, address = formatLocation(event.select_one('p.entry-calendar-event-item-text-location').text)
+    if not venue and not address:
+        return
     eventData = {
         'date': event.select_one('.entry-calendar-event-item-text-datetime time').get('datetime'),
         'time': event.select('.entry-calendar-event-item-text-datetime time')[1].get('datetime'),

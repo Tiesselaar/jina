@@ -14,7 +14,7 @@ def formatPrice(description):
         return ""
 
 def getData(event):
-    site = event.select_one('header > h3.tribe-events-calendar-list__event-title > a').get('href')
+    site = event.select_one('header > h4.tribe-events-calendar-list__event-title > a').get('href')
     print(site)
     subsoup = makeSoup(site)
     genre_tags = subsoup.select_one('.tec-events-elementor-event-widget__categories')
@@ -22,7 +22,7 @@ def getData(event):
     event_data = {
         'date': event.select_one('header > div > time').get('datetime'),
         'time': event.select_one('header > div > time > span.tribe-event-date-start').text.split()[-1],
-        'title': event.select_one('header > h3.tribe-events-calendar-list__event-title > a').text.strip(),
+        'title': event.select_one('header > h4.tribe-events-calendar-list__event-title > a').text.strip(),
         'venue': "Westerkerk",
         'price': formatPrice(subsoup.select_one('#tribe-events-pg-template').text),
         'site': site,

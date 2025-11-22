@@ -40,10 +40,10 @@ def getData(event):
     eventData = {
         'date': event.select_one('header time').get('datetime'),
         'time': time,
-        'title': event.select_one('h3.tribe-events-calendar-list__event-title a').text.strip() + unknown_time,
+        'title': event.select_one('h4.tribe-events-calendar-list__event-title a').text.strip() + unknown_time,
         'venue': venue,
         'price': formatPrice(event.select_one('.tribe-events-c-small-cta__price')),
-        'site': event.select_one('h3.tribe-events-calendar-list__event-title a').get('href'),
+        'site': event.select_one('h4.tribe-events-calendar-list__event-title a').get('href'),
         'address': address
     }
     return eventData

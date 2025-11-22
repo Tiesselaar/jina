@@ -10,7 +10,7 @@ def formatDate(dateString):
     return date.strftime('%Y-%m-%d')
 
 def formatTime(global_info):
-    time_pattern = r'Er worden concerten uitgevoerd op de volgende zondagochtenden om \d\d.\d\d uur'
+    time_pattern = r'Er worden concerten uitgevoerd op onderstaande zondagochtenden om \d\d.\d\d uur'
     time_search = re.search(time_pattern, global_info)[0]
     return time_search.split()[-2].replace('.',':')
 

@@ -22,7 +22,7 @@ def formatPrice(priceString):
     if "donatie" in priceString:
         return "pwyw"
     priceString = priceString.strip().replace(',', '.').replace('*', '').replace(' ', '')
-    if int(priceString.split('.')[1]) == 0:
+    if '.' in priceString and int(priceString.split('.')[1]) == 0:
         priceString = priceString.split('.')[0]
     return priceString
 
@@ -53,5 +53,14 @@ def getEventList():
     events = makeSoup(url).select('.section_program .programma .event-item')
     return events
 
+# def bot():
+#     return (gig for event in getEventList() for gig in getData(event))
+
 def bot():
-    return (gig for event in getEventList() for gig in getData(event))
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor() as executor:
+        return (
+            gig
+            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+            for gig in gigs
+        )

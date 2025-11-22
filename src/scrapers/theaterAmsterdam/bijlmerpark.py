@@ -13,7 +13,11 @@ def formatPrice(price):
         return ""
     return "".join(price.text.split()).replace(',','.').replace('.00','').split('-')[-1]
 
-def formatLocation(venue):
+def formatLocation(venueTag):
+    if venueTag:
+        venue = venueTag.text.strip()
+    else:
+        return None, None
     if venue in ["Foyer", "Theaterzaal", "Studiozaal 1", "Studiozaal 2", "Buiten"]:
         return "Bijlmer Parktheater", "Anton de Komplein 240, 1102 DR Amsterdam"
     elif "SHEBANG" in venue:
@@ -25,7 +29,7 @@ def formatLocation(venue):
     
 def getData(event):
     site = "https://www.bijlmerparktheater.nl" + event.select_one('a.desc').get('href')
-    venueTag = event.select_one('.venue').text.strip()
+    venueTag = event.select_one('.venue')
     venue, address = formatLocation(venueTag)
     if not venue:
         return

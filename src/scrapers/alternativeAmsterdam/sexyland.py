@@ -23,7 +23,7 @@ def formatTime(time):
 def formatLocation(location):
     if location == "Café de Druif":
         return "Café de Druif", "Rapenburgerplein 83, 1011 VJ Amsterdam, Nederland"
-    if location == "No Limit’s Art Castle!":
+    if "No Limit’s Art Castle!" in location:
         return "No Limits! Art Castle", "Sint Annendwarsstraat 9 C, 1012 HC Amsterdam, Nederland"
     if location == "The Fat Mermaid":
         return "The Fat Mermaid", "Strand Noord 19, 2586 ZZ Den Haag, Nederland"

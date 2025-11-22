@@ -23,6 +23,8 @@ def format_time(time):
 
 def getData(event):
     details = event.select_one('.vrankrijk-main-event-details').text.split('|')
+    if "closed" in "".join(details).lower():
+        return
     return {
         'date': formatDate(details[0].strip()),
         'time': format_time(details[1]),

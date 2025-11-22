@@ -5,8 +5,11 @@ import re
 CALENDARS = ['classicalAmsterdam', 'jazzAmsterdam']
 
 def formatDate(dateString):
-    if "28 november 2025" in dateString:
-        return "2025-11-28"
+    if "t/m" in dateString:
+        dateString = dateString.replace('Van', '')
+        ds = list(map(lambda x: x.strip(), dateString.split('t/m')))
+        if ds[0] == ds[1]:
+            dateString = ds[0].strip()
     dateFormat = '%d %B %Y'
     date = myStrptime(dateString, dateFormat).date()
     return date.strftime('%Y-%m-%d')

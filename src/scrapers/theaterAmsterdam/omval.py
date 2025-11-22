@@ -41,7 +41,7 @@ def getData(event):
 def getEventList():
     css_selector = '.container > .listWrapper > ul.listItems > li > .listItemWrapper > .inner'
     url = 'https://www.theaterdeomval.nl/voorstellingen?list_type=events&max=100&page='
-    events = sum((makeSoup(url + str(page)).select(css_selector) for page in range(1,5)), [])
+    events = sum((makeSoup(url + str(page)).select(css_selector) for page in range(1,3)), [])
     return events
 
 def bot():
