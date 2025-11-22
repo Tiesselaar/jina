@@ -12,7 +12,6 @@ def formatDate(dateString):
 
 def getData(event):
     site = event.select_one('.w-grid-item-h a').get('href')
-    print(site)
     subsoup = makeSoup(site)
     description = subsoup.select_one('section:has(h1.post_title) + section + div').text
     eventData = {
@@ -24,6 +23,8 @@ def getData(event):
         'site': site,
         'address': "Frederik Hendrikstraat 111, 1052 HN Amsterdam"
     }
+    if not eventData['time']:
+        return
     if 'jazz' in description.lower() or 'gumbo night' in event.text.lower():
         yield {**eventData, 'calendar': 'jazzAmsterdam'}
     yield {**eventData, 'calendar': 'alternativeAmsterdam'}
@@ -36,8 +37,11 @@ def getEventList():
 def bot():
     from concurrent.futures import ThreadPoolExecutor
     with ThreadPoolExecutor() as executor:
-        return (
+        gig_list = list((
             gig
             for gigs in executor.map(lambda event: list(getData(event)), getEventList())
             for gig in gigs
-        )
+        ))
+    if len(gig_list) < 10:
+        raise Exception('Fewer events than expected!!')
+    return gig_list

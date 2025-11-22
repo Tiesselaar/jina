@@ -12,7 +12,7 @@ import requests
 # from selenium import webdriver
 from playwright.sync_api import sync_playwright
 from time import sleep
-import socket
+import platform
 
 userAgentString = str(UserAgent(os="Mac OS X").chrome)
 TODAY = datetime.date.today()
@@ -47,7 +47,7 @@ def makeSoup(url, parser='html.parser', verify=True):
 def makeSeleniumSoup(url, sleepTime=0, scripts=[], waitFor = None):
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            executable_path = None if "mac" in socket.gethostname().lower() else "/usr/bin/chromium",
+            executable_path = None if platform.system() == "Darwin" else "/usr/bin/chromium",
             args = [
                 "--headless",
                 "--no-sandbox",
