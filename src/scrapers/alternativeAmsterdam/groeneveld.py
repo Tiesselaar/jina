@@ -34,7 +34,7 @@ def getData(event):
     return {
         'date': event.select_one('header time').get('datetime'),
         'time': formatTime(event.select_one('header time')),
-        'title': event.select_one('h3.tribe-events-calendar-list__event-title a').text.strip(),
+        'title': event.select_one('h4.tribe-events-calendar-list__event-title a').text.strip(),
         'venue': formatVenue(event.select_one('address .tribe-events-calendar-list__event-venue-title')),
         'price': "",
         'site': event.select_one('h3.tribe-events-calendar-list__event-title a').get('href'),
