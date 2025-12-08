@@ -4,7 +4,7 @@ from src.tools.scraper_tools import makeSoup
 
 def formatTime(date_time):
     time = date_time.select_one('.tribe-event-time')
-    if time:
+    if False:
         return time.text.strip()
     time = date_time.select_one('.tribe-event-date-start')
     if time:
