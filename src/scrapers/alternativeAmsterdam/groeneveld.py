@@ -37,7 +37,7 @@ def getData(event):
         'title': event.select_one('h4.tribe-events-calendar-list__event-title a').text.strip(),
         'venue': formatVenue(event.select_one('address .tribe-events-calendar-list__event-venue-title')),
         'price': "",
-        'site': event.select_one('h3.tribe-events-calendar-list__event-title a').get('href'),
+        'site': event.select_one('h4.tribe-events-calendar-list__event-title a').get('href'),
         'address': formatAddress(event.select_one('address .tribe-events-calendar-list__event-venue-address')) 
     }
 
