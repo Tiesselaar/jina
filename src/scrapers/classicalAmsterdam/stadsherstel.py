@@ -22,14 +22,15 @@ def formatPrice(details):
         return '€' + str(price_float)
     return ""
 
-def getData(event):
+def getData(args):
+    args = calendar, event
     site = event.select_one('a.grid-block').get('href')
     print(site)
     subsoup = makeSoup(site)
     tickets = subsoup.select_one(".agenda-speellijst > table.speellijst tbody").select('tr')
     for ticket in tickets:
         if not "Eonarium Genesis: Een Spectaculaire Lichtshow" == event.select_one('h2.grid-title').text:
-            yield {
+            event_data = {
                 'date': formatDate(ticket.select_one('td').text),
                 'time': ticket.select('td')[1].text.split()[0],
                 'title': event.select_one('h2.grid-title').text,
@@ -38,6 +39,7 @@ def getData(event):
                 'site': site,
                 'address': "Amsterdam"
             }
+            yield {**event_data, 'calendar': calendar}
 
 def getEventList():
     url = 'https://stadsherstel.nl/culturele-activiteiten/cultuuragenda?c='
@@ -61,10 +63,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 def bot():
     events = getEventList()
-    def task(args):
-        calendar, event = args
-        return [ {**gig, 'calendar': calendar} for gig in getData(event) ]
     all_events = [(calendar, event) for calendar in events for event in events[calendar]]
     with ThreadPoolExecutor() as executor:
-        results = executor.map(task, all_events)
+        results = executor.map(getData, all_events)
     return (gig for sublist in results for gig in sublist)
