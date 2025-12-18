@@ -3,7 +3,7 @@ from src.tools.scraper_tools import makeSoup, makeSeleniumSoup, futureDate
 import datetime
 import re
 
-CALENDARS = ['classicalAmsterdam', 'theaterAmsterdam']
+CALENDARS = ['classicalAmsterdam', 'theaterAmsterdam', 'jazzAmsterdam']
 
 def formatDate(dateString):
     if len(dateString.split()) == 3:
