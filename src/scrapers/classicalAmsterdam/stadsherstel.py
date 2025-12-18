@@ -23,7 +23,7 @@ def formatPrice(details):
     return ""
 
 def getData(args):
-    args = calendar, event
+    calendar, event = args
     site = event.select_one('a.grid-block').get('href')
     print(site)
     subsoup = makeSoup(site)
