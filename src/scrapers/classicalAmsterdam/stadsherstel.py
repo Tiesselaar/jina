@@ -40,6 +40,8 @@ def getData(args):
                 'address': "Amsterdam"
             }
             yield {**event_data, 'calendar': calendar}
+            if 'jazz' in event.text.lower() and calendar=='classicalAmsterdam':
+                yield {**event_data, 'calendar': 'jazzAmsterdam'}
 
 def getEventList():
     url = 'https://stadsherstel.nl/culturele-activiteiten/cultuuragenda?c='
