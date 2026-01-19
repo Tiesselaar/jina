@@ -4,7 +4,7 @@ import re
 CALENDARS = ['alternativeAmsterdam', 'jazzAmsterdam']
 
 def getData(event):
-    site = event.select_one('h3.tribe-events-calendar-list__event-title a').get('href')
+    site = event.select_one('h4.tribe-events-calendar-list__event-title a').get('href')
     print(site)
     subsoup = makeSoup(site)
     try:
@@ -22,7 +22,7 @@ def getData(event):
     eventData = {
         'date': event.select_one('time.tribe-events-calendar-list__event-date-tag-datetime').get('datetime'),
         'time': time,
-        'title': event.select_one('h3.tribe-events-calendar-list__event-title').text.strip(),
+        'title': event.select_one('h4.tribe-events-calendar-list__event-title').text.strip(),
         # 'venue': event.select_one('address span.tribe-events-calendar-list__event-venue-title').text.strip(),
         'venue': 'De Tanker in Noord',
         'price': "",
