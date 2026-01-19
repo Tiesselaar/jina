@@ -15,8 +15,19 @@ def get_ticket_price(url):
     else:
         ticket_link = makeSoup(url).select_one('iframe.active-tickets-iframe__iframe').get('src')
     tickets = makeSeleniumSoup(ticket_link).select('li.at-shopping-cart-orderrow')
-    tickets = [ticket for ticket in tickets if "Midden" in ticket.text or "Regulier" in ticket.text or "Middle" in ticket.text]
-    regulier, = tickets
+    regular_tickets = [ticket for ticket in tickets if any(
+        c in ticket.text.lower() for c in [
+            "regulier",
+            "regular",
+            "midden", 
+            "middle"
+        ]
+    )]
+    try:
+        regulier, = regular_tickets
+    except:
+        if "Gratis" in tickets[0].text:
+            return "free"
     return regulier.select_one('.at-shopping-cart-label-inner-name-price').text.replace(',','.').replace(' ','').replace('.00','')
     
 
@@ -47,6 +58,7 @@ def get_location(subsoup):
 
 def getData(event):
     site = event.select_one('.agenda-item__details > .agenda-item__title-wrapper > a').get('href')
+    print(site)
     subsoup = makeSoup(site)
     venue, address = get_location(subsoup)
     if not venue or not address:

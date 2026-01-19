@@ -15,7 +15,7 @@ def formatPrice(description):
     return price.strip("( normaal)").replace(',','.').replace(' ','')
 
 def getData(event):
-    date, time = formatDate(event.select_one('.card-body h6').text.strip())
+    date, time = formatDate(event.select_one('.card-body h6.text-secondary').text.strip())
     return {
         'date': date,
         'time': time,
