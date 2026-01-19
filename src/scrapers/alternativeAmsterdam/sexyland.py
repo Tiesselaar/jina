@@ -45,9 +45,12 @@ def formatLocation(location):
         return "Paleis van de Weemoed", "Oudezijds Voorburgwal 15, 1012 EH Amsterdam"
     if location == "Café Schiller":
         return "Café Schiller", "Rembrandtplein 24-A, 1017 CV Amsterdam"
-    if location == "SEXYLAND SHOP":
+    if location == "PARADISO":
+        return "Paradiso", "Weteringschans 6-8, 1017 SG Amsterdam"
+    if location in ["SEXYLAND SHOP", "LET’S GO", "TBA"]:
         return None, None
-    raise Exception('Unkown location: ' + location)
+
+    raise Exception('Unkown location: "{}"'.format(location))
 
 def getData(event):
     title = event.select_one('.information .title').contents[0]

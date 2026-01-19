@@ -16,10 +16,9 @@ __all__ = [
     "plantagedok",
     "rozenstraat",
     "ruigoord",
-    "sering",
     "sexyland",
     "squatradar",
-    "studioK",
+    # "studioK", moved this to jina4
     "takland",
     "tanker",
     "tolhuistuin",
