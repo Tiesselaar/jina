@@ -8,7 +8,6 @@ __all__ = [
     # "eindexamens2025",
     "engelbewaarder",
     "horizon",
-    "hulschers",
     "ijzerstaven",
     "jazzfest",
     "kalemegdan",
