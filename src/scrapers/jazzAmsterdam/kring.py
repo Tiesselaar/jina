@@ -18,13 +18,14 @@ def formatPrice(price):
 def getData(event):
     if "Jazz" in event.text:
         site = event.select_one('.programma-item-title-figure a').get('href')
-        subSoup = makeSoup(site)
+        # subSoup = makeSeleniumSoup(site,2)
         return {
             'date': formatDate(event.select_one('.programma-item-inner .programma-item-datum-tijd p.programma-item-datum').text),
             'time': formatTime(event.select_one('.programma-item-inner .programma-item-datum-tijd p.programma-item-tijd').text),
             'title': event.select_one('.programma-item-title-figure a div h3 span').text,
             'venue': "Sociëteit de Kring",
-            'price': formatPrice(subSoup.select_one('#site-content').text),
+            # 'price': formatPrice(subSoup.select_one('#site-content').text),
+            'price': "",
             'site': site,
             'address': 'Kleine-Gartmanplantsoen 7-9, 1017 RP Amsterdam'
         }
