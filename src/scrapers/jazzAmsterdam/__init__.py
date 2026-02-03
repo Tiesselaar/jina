@@ -29,6 +29,5 @@ __all__ = [
     "wearepublic",
     "westeramstel",
     "zaal100",
-    "zojazz",
 ]
 from . import *
