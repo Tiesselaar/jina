@@ -1,67 +1,65 @@
-from src.tools.scraper_tools import myStrptime, makeSoup, makeSeleniumSoup, futureDate
-import re
-
 CALENDARS = ['popAmsterdam', 'jazzAmsterdam']
 
-def formatDate(date):
-    # format date '31-1-2023'
-    if not re.search(r'20\d\d', date):
-        date += " 2020"
-    dateFormat = '%A %d %B %Y'
-    myDate = futureDate(myStrptime(date, dateFormat).date())
-    return myDate.strftime('%Y-%m-%d')
+import requests
 
-def formatTime(time):
-    voorprogramma = re.search(r"Voorprogramma: \d\d:\d\d", time)
-    if voorprogramma:
-        return voorprogramma[0][-5:]
-    hoofdprogramma = re.search(r"Hoofdprogramma: \d\d:\d\d", time)
-    if hoofdprogramma:
-        return hoofdprogramma[0][-5:]
-    time = re.search(r"\d\d:\d\d", time)[0]
-    return time
+URL = "https://knwxh8dmh1.execute-api.eu-central-1.amazonaws.com/graphql"
 
-def formatPrice(price):
-    price = "".join(price.split())
-    price = re.search(r'Ticket€\d*(,\d\d)?', price)[0]
-    price = price.replace('Ticket','')
-    return price
+payload = {
+    "query": """
+    {
+      program(site:"paradisoNederlands", size:500) {
+        events {
+          uri
+          title
+          subtitle
+          startDateTime
+          eventStatus
+          supportAct
+          soldOut
+          location {
+            title
+          }
+        }
+      }
+    }
+    """
+}
 
-def formatAddress(maps_link):
-    query = maps_link.split('query=')[1]
-    return ",".join(query.split(',')[1:]).replace(', Noord, ', ', ').replace(', Centrum, ', ', ')
+VENUES = {
+  "Paradiso": "Weteringschans 6-8, 1017 SG Amsterdam, NL",
+  "Tolhuistuin": "IJpromenade 2, 1031 KT Amsterdam, NL",
+  "Zonnehuis": "Zonneplein 30, 1033 EK Amsterdam, NL",
+  "Bitterzoet": "Spuistraat 2, 1012 TS Amsterdam, NL",
+  "Parallel": "Kijkduinstraat 3, 1055 XP Amsterdam, NL",
+  "Academie voor Theater en Dans": "Jodenbreestraat 3, 1011 NG Amsterdam, NL",
+  "Cinetol": "Tolstraat 182, 1074 VM Amsterdam, NL",
+  "AFAS Live": "Johan Cruijff Boulevard 590, 1101 DS Amsterdam, NL",
+  "Toekomstmuziek": "Danzigerbocht 29, 1013 AM Amsterdam",
+  "De Duif": "Prinsengracht 756, 1017 LD Amsterdam",
+}
+
 
 def getData(event):
-    site = 'https://www.paradiso.nl' + event.get('href')
-    print(site)
-    subsoup = makeSoup(site)
-    datePlaceTime = subsoup.select(".chakra-container > div > div > p.chakra-text")
-
-    eventData = {
-        'date': formatDate(datePlaceTime[0].text),
-        'time': formatTime(datePlaceTime[2].text),
-        'title': event.select_one('h2').text.strip(),
-        'venue': datePlaceTime[1].text.replace("In ", "").split("-")[0].strip(),
+    venue = event['location'][0]['title'] if event['location'] else "Paradiso"
+    event_data = {
+        'date': event['startDateTime'].split('T')[0],
+        'time': event['startDateTime'].split('T')[1][:5],
+        'title': event['title'] + \
+          (" + " + event['supportAct'] if event['supportAct'] else "") + \
+          (" (sold out)" if event['soldOut'] == 'yes' else "") + \
+          (" (CANCELLED)" if event['eventStatus'] == 'canceled' else "") + \
+          (" (POSTPONED)" if event['eventStatus'] == 'postponed' else ""),
+        'venue': venue,
         'price': "",
-        'site': site,
-        'address': formatAddress(subsoup.select_one('a[href^="https://www.google.com/maps/"]').get('href'))
+        'site': "https://www.paradiso.nl/" + event['uri'],
+        'address': VENUES[venue]
     }
-    try:
-        eventData['price'] = formatPrice(subsoup.select_one('a[href^="https://"].chakra-button').text)
-    except Exception as e:
-        print("No price")
-        eventData['price'] = ""
-    if ("jazz" in event.text.lower() or
-        "hi-stakes" in event.text.lower()):
-        yield {**eventData, 'calendar': 'jazzAmsterdam'}
-    yield {**eventData, 'calendar': 'popAmsterdam'}
+    yield {'calendar': 'popAmsterdam', **event_data}
+    if 'jazz' in (event['subtitle'] or '' + event['title'] or '' + event['supportAct'] or '').lower():
+      yield {'calendar': 'jazzAmsterdam', **event_data}
 
 def getEventList():
-    venue_name = 'paradiso'
-    url = 'https://www.paradiso.nl'
-    script = ("window.scrollTo(0, document.body.scrollHeight);" for i in range(8))
-    events = makeSeleniumSoup(url, 1, script).select('a[href*="/program"]:not(.chakra-link)')
-    return events
+    return requests.post(URL, json=payload).json()['data']['program']['events']
 
 
 def bot():

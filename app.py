@@ -106,7 +106,7 @@ if __name__=="__main__":
     print("\n" + ("#" * 80) * 2, end="")
     print_log("", 'w', end="")
     args = sys.argv[1:]
-    
+
     debug = bool(args.count('--debug')) and bool(args.pop(args.index('--debug')))
     noval = False
     if debug:

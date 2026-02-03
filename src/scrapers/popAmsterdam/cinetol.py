@@ -50,7 +50,7 @@ def getData(event):
 
 def getEventList():
     url = 'https://www.cinetol.nl/programma'
-    events = makeSoup(url).select('.section_program .programma .event-item')
+    events = makeSoup(url).select('.section_program .programma .event-item')[:-3]
     return events
 
 # def bot():
