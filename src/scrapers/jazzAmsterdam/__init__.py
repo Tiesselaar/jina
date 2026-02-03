@@ -20,7 +20,6 @@ __all__ = [
     "pinto",
     "plofhuis7",
     "pompstation",
-    "ramses",
     "rooderemise",
     "ruimte",
     "splendor",
