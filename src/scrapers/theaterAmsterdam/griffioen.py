@@ -17,6 +17,10 @@ def format_location(location_string):
         return "Theater de Griffioen", "De Boelelaan 1111, 1081 HV Amsterdam"
     if location_string == "Tuindorpkerk, Professor Suringarlaan 1, Utrecht":
         return "Tuindorpkerk (Utrecht)", "Professor Suringarlaan 1, Utrecht"
+    if location_string == "Bar Boele":
+        return "Bar Boele", "De Boelelaan 1111, 1081 HV Amsterdam"
+    if location_string == "Het Concertgebouw":
+        return "Het Concertgebouw", "Concertgebouwplein 10, 1071 BB Amsterdam"
     if location_string == "Zuiderkerk in Amsterdam":
         return "Zuiderkerk", "Zuiderkerkhof 72, 1011 HJ Amsterdam"
     raise Exception("Unknown location: " + location_string)
