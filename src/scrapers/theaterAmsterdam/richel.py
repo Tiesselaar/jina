@@ -15,7 +15,6 @@ DATE_SELECTOR = ' > '.join([
 ])
 
 def formatDateTime(dateString):
-    print(dateString)
     dateFormat = '%d-%m-%Y - %H:%M'
     date = myStrptime(dateString, dateFormat)
     return date.strftime('%Y-%m-%d'), date.strftime('%H:%M')
@@ -34,16 +33,15 @@ def makeFilter(dateFilter):
 
 def formatPrice(info, site):
     price_string = info[-1].text
-    if "Reserveren":
+    if "Reserveren" in price_string:
         return ""
     price_string = "".join(price_string.split()[:2])
     if not re.match(r'€\d+\.\d\d', price_string):
-        raise Exception("funny price: " + price_string)
+        return ""
     return "".join(price_string.replace('.00', ''))
 
 def getData(event):
     site = event.select_one('a.jet-engine-listing-overlay-link').get('href')
-    print(site)
     subsoup = makeSoup(site)
     description = subsoup.select_one('[data-elementor-type="wp-post"]')
     try:
