@@ -21,9 +21,10 @@ def formatPrice(global_info):
     return "€" + str(float(price_search.split()[-1].replace(',','.')))
 
 def getData(event, global_time, global_price):
+    date_time = event.select_one('a.ut-blog-link .entry-content p').text
     return {
-        'date': formatDate(event.select_one('a.ut-blog-link .entry-content p').text),
-        'time': global_time,
+        'date': formatDate(date_time.split(' aanvang ')[0]),
+        'time': date_time.split(' aanvang ')[1].split()[0],
         'title': event.select_one('header.entry-header h2.entry-title').text,
         'venue': "Kamermuziek in de Koningszaal",
         'price': global_price,

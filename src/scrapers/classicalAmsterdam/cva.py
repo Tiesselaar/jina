@@ -19,6 +19,9 @@ def formatPrice(description, venue):
 
 def getData(event_calendar):
     event, calendar = event_calendar
+    title = event.select_one('.agenda-list-title').text.strip()
+    if title == "Jazz | Jazzfest Amsterdam":
+        return
     date, time = formatDate(event.select_one('.agenda-list-date').text)
     venue = event.select_one('.location').text.replace('Conservatorium van Amsterdam', 'CvA')
     site = 'https://www.conservatoriumvanamsterdam.nl' + event.select_one('a').get('href')
@@ -26,7 +29,6 @@ def getData(event_calendar):
     description = subsoup.select_one('#main-content .calendar.event.row .text')
     description = description.text if description else ""
     location = subsoup.select_one('#main-content .calendar.event.row .calendar-event-location')
-    title = event.select_one('.agenda-list-title').text.strip()
     tag = {
         "jazzAmsterdam": "Jazz",
         "classicalAmsterdam": "Klassiek",

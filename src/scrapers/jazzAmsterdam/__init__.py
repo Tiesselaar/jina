@@ -27,7 +27,6 @@ __all__ = [
     "tenclub",
     "tolhuis",
     "wearepublic",
-    "westeramstel",
     "zaal100",
 ]
 from . import *
