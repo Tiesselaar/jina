@@ -11,7 +11,6 @@ __all__ = [
     "joodsmuseum",
     "kamukoza",
     "keizersgrachtkerk",
-    "kleinekerk",
     "luthermuseum",
     "muziekgebouw",
     "nieuwekerk",

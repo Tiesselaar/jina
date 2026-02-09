@@ -39,7 +39,7 @@ def getData(event):
         tickets, = [link.get('href') for link in event.select('a.button') if "Tickets" in link.text]
         price = re.search(r'€[  ]?\d+([\.,]\d\d)?', makeSeleniumSoup(tickets, 1).text)[0]
         price = price.replace(',', '.').replace(' ', '').replace(' ','').replace('.00', '')
-    except Exception:
+    except:
         price = ""
     venue, address = formatLocation(event.select_one('.locatie').text)
     event_data =  {
