@@ -25,7 +25,7 @@ def getData(event):
         yield {
             'date': formatDate(date.select_one('ul').contents[0].strip()),
             'time': date.select_one('ul span').text,
-            'title': event.select_one('h2.performace-title').text + " - " + event.select_one('h2.performace-title + p.light').text,
+            'title': event.select_one('h2.performace-title').text + " - " + event.select_one('h2.performace-title + :is(p.light, p.dark)').text,
             'venue': "CC-Amstel",
             'price': price,
             'site': site,

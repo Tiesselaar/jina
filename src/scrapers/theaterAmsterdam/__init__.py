@@ -3,7 +3,6 @@ __all__ = [
     "badhuis",
     "bellevue",
     "bijlmerpark",
-    "blackcat",
     "brakkegrond",
     "cameleon",
     "carre",
