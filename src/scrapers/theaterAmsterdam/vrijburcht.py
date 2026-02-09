@@ -26,7 +26,7 @@ def getData(event):
     if not event.select_one('div.entry-text'):
         return
     eventData = {
-        'date': formatDate(event.select_one('div.entry-text header.entry-header div.entry-meta span.date time.entry-date').text),
+        'date': event.select_one('div.entry-text header.entry-header div.entry-meta span.date time.entry-date').get('datetime').split('T')[0],
         'time': formatTime(event.select_one('div.entry-text header.entry-header div.entry-meta span.date span.time').text),
         'title': event.select_one('div.entry-text header.entry-header h1.entry-title a').text,
         'venue': "Theater Vrijburcht",

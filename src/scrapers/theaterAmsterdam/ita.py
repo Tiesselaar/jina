@@ -37,7 +37,9 @@ def getData(day_event):
 
 def getEventList():
     url = 'https://ita.nl/nl/agenda/'
-    days = makeSeleniumSoup(url).select('.agenda__day-container')
+    days = makeSeleniumSoup(url, 2).select('.agenda__day-container')
+    if len(days) == 0:
+        raise Exception('Too few events')
     return ([
         formatDate(day.select_one('.agenda__day-title').text),
         event

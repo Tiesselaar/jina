@@ -32,8 +32,10 @@ def makeFilter(dateFilter):
     end = formatDate(dateFilter[0].text)
     return start, end
 
-def formatPrice(info):
+def formatPrice(info, site):
     price_string = info[-1].text
+    if "Reserveren":
+        return ""
     price_string = "".join(price_string.split()[:2])
     if not re.match(r'€\d+\.\d\d', price_string):
         raise Exception("funny price: " + price_string)
@@ -64,7 +66,7 @@ def getData(event):
                 'time': time,
                 'title': event.select_one('h2.jet-listing-dynamic-field__content').text,
                 'venue': "Theater De Richel",
-                'price': formatPrice(subsoup.select('h5.elementor-heading-title')),
+                'price': formatPrice(subsoup.select('h5.elementor-heading-title'), site),
                 'site': site,
                 'address': "Nieuwezijds Voorburgwal 282, 1012 RT Amsterdam"
             }
