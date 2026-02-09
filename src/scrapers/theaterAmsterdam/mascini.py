@@ -24,7 +24,6 @@ def formatPrice(price):
 
 def getData(event):
     site = event.get('href')
-    print(site)
     subsoup = makeSoup(site)
     if "Geannuleerd" in subsoup.select_one('.databox .datum-bestel').text:
         return
@@ -35,7 +34,7 @@ def getData(event):
         event_data =  {
             'date': formatDate(info_div.select_one('h3').text, event_year),
             'time': formatTime(time.text),
-            'title': event.select_one('.itemtext > h1').text,
+            'title': event.select_one('.itemtext h1').text,
             'venue': "Theater Mascini",
             'price': formatPrice(subsoup.select_one('.datum-bestel .prijzen-info .prijs')),
             'site': site,
