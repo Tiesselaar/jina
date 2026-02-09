@@ -44,6 +44,8 @@ def getData(event):
         # elif "hassan-en-moos" in site:
         #     venue = "ROC Amsterdam - MBO College Centrum"
         #     address = "Elandsstraat 175, 1016 SB Amsterdam"
+        elif "-tout-bouge" in site or "-et-alors" in site:
+            pass
         else:
             raise Exception('unknown location: ' + site)
         

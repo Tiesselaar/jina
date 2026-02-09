@@ -38,7 +38,7 @@ def getData(event):
 
 def getEventList():
     url = 'https://www.dekleinekomedie.nl/agenda?max=36&list_type=events&page='
-    return (event for page in range(1,6) for event in makeSoup(url + str(page)).select('ul.listItems li.eventCard'))
+    return (event for page in range(1,5) for event in makeSoup(url + str(page)).select('ul.listItems li.eventCard'))
 
 def bot():
     return (gig for event in getEventList() for gig in getData(event))

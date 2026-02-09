@@ -7,7 +7,7 @@ import re
 def formatDate(dateString):
     dateString = dateString.replace('.','')
     week_day, day, month = dateString.split()
-    dateString = " ".join([week_day, day, month[:3]])
+    dateString = " ".join([week_day, day, month[:3]]).replace(' maa', ' mrt')
     dateString += " 2024"
     dateFormat = '%a %d %b %Y'
     date = myStrptime(dateString, dateFormat).date()
@@ -35,6 +35,8 @@ def getData(event):
     date = " ".join(date_time.split()[:3]).replace('.', '')
     time = date_time.split()[3].replace('.',':')
     if "Comedy" in time:
+        return
+    if time == "Concert:":
         return
     return {
         'date': formatDate(date),
