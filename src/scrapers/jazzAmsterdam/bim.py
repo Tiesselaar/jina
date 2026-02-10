@@ -31,6 +31,8 @@ def getEventList():
     venue_name = 'bim'
     url = 'https://www.bimhuis.nl/feed/'
     events = makeSoup(url,'xml').select('program_item')
+    if len(events) < 10:
+        raise Exception('to few events')
     return events
 
 def bot():
