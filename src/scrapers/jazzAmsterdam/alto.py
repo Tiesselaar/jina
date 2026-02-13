@@ -23,12 +23,12 @@ def dateToTime(gig_date):
 def getData(event):
     date = formatDate(event.select_one('.start-date').text)
     title = event.select_one('.event-title a').text
-    print(title)
     time = event.select_one('.event-time')
     if time:
         time = time.text.split('-')[0].replace('.',':')
     else:
-        time = dateToTime(date)
+        # time = dateToTime(date)
+        time = "20:30"
     eventData = {
         'date': date,
         'time': time,
