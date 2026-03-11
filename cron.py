@@ -31,7 +31,7 @@ def make_screenshot(image_url):
     return requests.get(image_url).status_code
 
 # def get_screenshot_link(calendar, format, date):
-#     html_url = f"https://jina3.vercel.app/cal/{calendar}/today/{format}/html/{date}"
+#     html_url = f"https://jazzinamsterdam4.vercel.app/cal/{calendar}/today/{format}/html/{date}"
 #     screenshot_data = {
 #         "access_key" : os.environ.get('API_FLASH_KEY'),
 #         "url": html_url,
@@ -76,7 +76,7 @@ def make_post(user_id, user_token, container_id):
 if __name__=="__main__":
     timestamp = datetime.today().isoformat()
     calendar, format = sys.argv[1:]
-    image_url = f"https://jina3.vercel.app/cal/{calendar}/today/{format}/jpg/{timestamp}.jpeg"
+    image_url = f"https://jazzinamsterdam4.vercel.app/{calendar}/today/{format}/jpg/{timestamp}.jpeg"
     user_id = CALENDARS[calendar]["user_id"]
     user_token = CALENDARS[calendar]["user_token"]
     caption = CALENDARS[calendar]["caption"]
