@@ -11,9 +11,6 @@ def server():
     supabase: Client = create_client(url, key)
     return supabase
 
-def get_venue_key(calendar, venue):
-    return server().table('venues3').upsert({ "calendar": calendar, "source": venue }).execute().data[0]['secret']
-
 def format_price(price):
     price = price.replace(',','.')
     price = re.sub(r'\.00\b', '', price)
@@ -24,16 +21,14 @@ def format_price(price):
 def update_record(calendar, venue, gigs):
     today = (datetime.date.today()).isoformat()
     gigs = [gig for gig in gigs if gig['date'] >= today]
-    secret = get_venue_key(calendar, venue)
     for gig in gigs:
         gig['calendar'] = calendar
         gig['source'] = venue
-        gig['secret'] = secret
         gig['price'] = format_price(gig['price'])
 
     supabase = server()
-    supabase.table('gigs3').delete().eq('calendar', calendar).eq('source', venue).gte('date', today).execute()
+    supabase.table('gigs').delete().eq('calendar', calendar).eq('source', venue).gte('date', today).execute()
     if gigs == []:
         return 0
-    response = supabase.table('gigs3').upsert(gigs, count='exact').execute()
+    response = supabase.table('gigs').upsert(gigs, count='exact').execute()
     return response.data

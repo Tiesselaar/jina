@@ -84,7 +84,7 @@ def get(venues, debug, noval):
                 elapsed_time = int(time.time() - start)
 
                 print_log(f"passed {(str(elapsed_time) + 's').rjust(4)} ({count})".ljust(20) + ("empty set!" if count == 0 else ""))
-                print(f"https://jina3.vercel.app/cal/{calendar}/venues/{venue}")
+                print(f"https://jazzinamsterdam4.vercel.app/{calendar}/venue/{venue}")
             except Exception as e:
                 if debug:
                     raise e
