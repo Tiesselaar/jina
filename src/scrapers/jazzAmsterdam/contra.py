@@ -26,7 +26,7 @@ def getData(event):
 
 def getEventList():
     url = 'https://contra.weticket.io'
-    events = makeSeleniumSoup(url).select('main > div > div > div > a')
+    events = makeSeleniumSoup(url,3).select('main > div > div > div > a')
     return events
 
 def bot():
