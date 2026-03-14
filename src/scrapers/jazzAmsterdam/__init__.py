@@ -3,7 +3,6 @@ __all__ = [
     "bacchus",
     "bim",
     "breugem",
-    "contra",
     "dillewijn",
     # "eindexamens2025",
     "engelbewaarder",
