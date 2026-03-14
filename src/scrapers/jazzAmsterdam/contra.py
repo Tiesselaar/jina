@@ -26,7 +26,10 @@ def getData(event):
 
 def getEventList():
     url = 'https://contra.weticket.io'
-    events = makeSeleniumSoup(url).select('main > div > div > div > a')
+    html = makeSeleniumSoup(url)
+    events = html.select('main > div > div > div > a')
+    if len(events) < 2:
+        raise Exception('not enough elements')
     return events
 
 def bot():
