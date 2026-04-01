@@ -32,15 +32,17 @@ def getData(event):
 
 def getEventList():
     url='https://kring.nl/programma/'
-    events = makeSoup(url).select("div.programma-item-wrappers div.programma-item")
-    if len(events) < 5:
-        raise Exception("Too few events")
-    return events
+    attempt = 0  
+    while attempt < 4:
+      print('attempt', attempt)
+      events = makeSoup(url).select("div.programma-item-wrappers div.programma-item")
+      if events:
+        return events
+      attempt += 1
+      import time
+      time.sleep(20)
+    raise Exception("No events detected")
 
 def bot():
-    l = list(map(getData, getEventList()))
-    if len(l) < 5:
-        raise Exception("Too few events")
-    return l
-
+    return list(map(getData, getEventList()))
 
