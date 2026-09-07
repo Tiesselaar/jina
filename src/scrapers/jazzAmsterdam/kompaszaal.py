@@ -20,6 +20,8 @@ def formatPrice(eventDescription):
     return price[0].replace(' ','').replace('EUR','€')
 
 def getData(event):
+    if "kz closed" in event.text.lower():
+        return
     return {
         'date': format_date(event.select_one('.mec-event-month').text),
         'time': event.select_one('.mec-start-time').text,
@@ -31,7 +33,6 @@ def getData(event):
     }
 
 def getEventList():
-    venue_name = 'kompaszaal'
     url = 'https://www.kompaszaal.nl/agenda/'
     events = makeSoup(url).select('.mec-toggle-item')
     return events
