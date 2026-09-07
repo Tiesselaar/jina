@@ -45,7 +45,7 @@ def getData(event):
 
     if time == None:
         time = get_time(subsoup)
-        if time == None:
+        if time == None or "TBA" in time:
             print('no time!')
             return
     
@@ -68,7 +68,6 @@ def getData(event):
 
 
 def getEventList():
-    venue_name = 'jazzfest'
     url = 'https://jazzfestamsterdam.nl/agenda/'
     events = makeSoup(url).select('#evenementen .event-grid-cont')
     return events
