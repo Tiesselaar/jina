@@ -45,7 +45,6 @@ def getData(event):
         return eventData
 
 def getEventList():
-    venue_name = 'tenclub'
     url = 'https://tenclub.nl/events/'
     events = makeSoup(url).select('article')
     return events

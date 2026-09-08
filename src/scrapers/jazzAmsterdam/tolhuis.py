@@ -21,7 +21,6 @@ def getData(event):
         return eventData
 
 def getEventList():
-    venue_name = 'tolhuis'
     url = 'https://www.tolhuis.nl/agenda'
     return makeSeleniumSoup(url, 2).select_one('ul[data-hook="events-cards"]').select('li[data-hook="events-card"]')
 

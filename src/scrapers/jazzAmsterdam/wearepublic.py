@@ -68,7 +68,7 @@ def getData(event):
 def getEventList():
     url = 'https://www.wearepublic.nl/alles?region=28'
     load_more = 4 * ["document.getElementsByClassName('event-grid__load-more')[0].click()"]
-    events = makeSeleniumSoup(url, 1 , load_more).select('a.event-card')
+    events = makeSeleniumSoup(url, 1 , load_more).select('.event-card')
     if len(events) < 50:
         raise Exception('Fewer events than expected!!!')
     return events[:70]
