@@ -13,7 +13,6 @@ def formatTime(eventInfo):
 def getData(event):
     site = event.select_one('div.tour-place span.sub-head a').get('href')
     subsoup = makeSoup(site)
-    print('hallo')
     if 'jazz' in subsoup.select_one('#page .container').text.lower():
         return {
             'date': formatDate(event.select_one('p.tour-date').text),
