@@ -1,6 +1,6 @@
 __all__ = [
     "alto",
-    "bacchus",
+    # "bacchus",
     "bim",
     "breugem",
     "dillewijn",
