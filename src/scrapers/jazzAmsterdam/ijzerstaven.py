@@ -26,6 +26,8 @@ def getData(event):
 def getEventList():
     url = 'https://www.ijzerstaven.nl/agenda'
     events = makeSoup(url).select('#wix-events-widget li[data-hook="event-list-item"]')
+    if not events:
+        raise Exception("Fewer events than expected")
     return events
 
 def bot():
