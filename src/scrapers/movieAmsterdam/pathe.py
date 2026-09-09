@@ -32,14 +32,15 @@ cinemas = [
 def get_json(url):
     headers = {
         "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) "
+            "Version/26.0 Safari/605.1.15"
         ),
         "Accept": "application/json, text/plain, */*",
-        "Accept-Language": "nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Referer": f"https://www.pathe.nl/",
-        "Connection": "keep-alive"
+        "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.8",
+        "Referer": "https://www.pathe.nl/",
     }
+    print(url)
     response = requests.get(url, headers=headers)
     response.raise_for_status()
     return response.json()

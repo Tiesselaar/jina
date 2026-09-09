@@ -27,6 +27,9 @@ def getData(args):
     site = event.select_one('a.grid-block').get('href')
     print(site)
     subsoup = makeSoup(site)
+    if "404 | Helaas, deze pagina bestaat niet (meer)...." in subsoup.text:
+        print("DEAD LINK")
+        return
     tickets = subsoup.select_one(".agenda-speellijst > table.speellijst tbody").select('tr')
     for ticket in tickets:
         if not "Eonarium Genesis: Een Spectaculaire Lichtshow" == event.select_one('h2.grid-title').text:
