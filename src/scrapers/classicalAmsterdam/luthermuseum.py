@@ -5,11 +5,15 @@ import re
 CALENDARS = ['classicalAmsterdam', 'jazzAmsterdam']
 
 def formatDate(dateString):
+    print(dateString)
     if "t/m" in dateString:
         dateString = dateString.replace('Van', '')
         ds = list(map(lambda x: x.strip(), dateString.split('t/m')))
+        print(ds)
         if ds[0] == ds[1]:
             dateString = ds[0].strip()
+        else:
+            return
     dateFormat = '%d %B %Y'
     date = myStrptime(dateString, dateFormat).date()
     return date.strftime('%Y-%m-%d')
@@ -42,8 +46,11 @@ def getData(event):
     except:
         price = ""
     venue, address = formatLocation(event.select_one('.locatie').text)
+    date = formatDate(event.select_one('.evenement-datum').text.strip())
+    if not date:
+        return
     event_data =  {
-        'date': formatDate(event.select_one('.evenement-datum').text.strip()),
+        'date': date,
         'time': event.select_one('.evenement-tijd').text.split('-')[0].strip(),
         'title': event.select_one('.tile-title-box h2').text,
         'venue': venue,
