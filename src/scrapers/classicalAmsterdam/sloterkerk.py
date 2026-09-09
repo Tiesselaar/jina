@@ -1,5 +1,11 @@
 from src.tools.scraper_tools import makeSoup
 
+def format_price(price_element):
+    if price_element:
+        return price_element.text.strip()
+    else:
+        return ""
+
 def getData(event):
     if ("Orgeltochten Noord-Holland" in event.text and
         "2 augustus" in event.text):
@@ -11,7 +17,7 @@ def getData(event):
         'time': time or event.select_one('article header time .tribe-event-date-start').text.split()[-1],
         'title': event.select_one('h4.tribe-events-calendar-list__event-title a').text.strip(),
         'venue': event.select_one('address .tribe-events-calendar-list__event-venue-title').text.strip(),
-        'price': event.select_one('.tribe-events-c-small-cta__price').text.strip(),
+        'price': format_price(event.select_one('.tribe-events-c-small-cta__price')),
         'site': event.select_one('h4.tribe-events-calendar-list__event-title a').get('href'),
         'address': event.select_one('address .tribe-events-calendar-list__event-venue-address').text.strip()
     }
