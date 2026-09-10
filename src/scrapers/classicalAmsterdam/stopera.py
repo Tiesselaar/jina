@@ -20,7 +20,7 @@ def price_location(ticket):
 
 
 def getData(event):
-    site = 'https://www.operaballet.nl' + event.select_one('a.programCard__button').get('href')
+    site = 'https://www.operaballet.nl' + event.select_one('.programCard__content a').get('href')
     subsoup = makeSeleniumSoup(site)
     tickets = subsoup.select('#tickets .ticket__content')
     for ticket in tickets:
@@ -41,7 +41,7 @@ def getEventList():
     url = 'https://www.operaballet.nl/programma?page='
     events = sum((makeSeleniumSoup(url + str(i)).select('article.programCard') for i in range(3)), [])
     events = list({
-        event.select_one('a.programCard__button').get('href'): event
+        event.select_one('.programCard__content a').get('href'): event
         for event in events
     }.values())
     return events
