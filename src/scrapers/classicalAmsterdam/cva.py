@@ -23,7 +23,12 @@ def getData(event_calendar):
     if title == "Jazz | Jazzfest Amsterdam":
         return
     date, time = formatDate(event.select_one('.agenda-list-date').text)
-    venue = event.select_one('.location').text.replace('Conservatorium van Amsterdam', 'CvA')
+    venue = event.select_one('.location')
+    if not venue:
+        print('not location!')
+        return
+    venue = venue.text.replace('Conservatorium van Amsterdam', 'CvA')
+
     site = 'https://www.conservatoriumvanamsterdam.nl' + event.select_one('a').get('href')
     subsoup = makeSoup(site)
     description = subsoup.select_one('#main-content .calendar.event.row .text')

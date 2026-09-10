@@ -1,4 +1,5 @@
 import requests
+import datetime
 
 cinemas = [
     {
@@ -59,14 +60,20 @@ def get_show(show):
     return get_json(url)
 
 def get_showtimes(show, cinema):
-    url = f"https://www.pathe.nl/api/show/{show}/showtimes/{cinema}"
-    return get_json(url)
+    days = [datetime.date.today() + datetime.timedelta(i) for i in range(3)]
+    show_times = []
+    for day in days:
+      url = f"https://www.pathe.nl/api/show/{show}/showtimes/{cinema}/{day}"
+      show_times += get_json(url)
+    return show_times
 
 
-def format_event(cinema, show, date_key, showtime):
+
+def format_event(cinema, show, showtime):
+    date, time = showtime['time'].split()
     return {
-        'date': date_key,
-        'time': showtime['time'].split(' ')[1][:5],
+        'date': date,
+        'time': time[:5],
         'title': show['title'],
         'venue': cinema['name'],
         'price': "",
@@ -85,9 +92,8 @@ def bot():
             show_data = get_show(show_id)
             showtimes_data = get_showtimes(show_id, cinema_tag)
 
-            for date_key, showtime_list in showtimes_data.items():
-                for st in showtime_list:
-                    event = format_event(cinema, show_data, date_key, st)
-                    all_events.append(event)
+            for st in showtimes_data:
+                event = format_event(cinema, show_data, st)
+                all_events.append(event)
     return all_events
 
