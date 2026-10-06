@@ -5,6 +5,8 @@ CALENDARS = ['jazzAmsterdam', 'alternativeAmsterdam']
 
 def formatDate(tags):
     tags = [tag.text for tag in tags if tag.text not in "–"]
+    if len(tags) == 4:
+        return
     dateString = " ".join(tags)
     dateFormat = '%d %b %Y'
     date = myStrptime(dateString, dateFormat).date()
@@ -43,12 +45,14 @@ def getData(event):
     event_data = {
         'date': formatDate(event.select('.event-date_wrapper div div')),
         'time': formatTime(info_lines['Tijd:']),
-        'title': " - ".join(map(lambda x: x.text.strip(), event.select_one('.event-info_wrapper .event-title_wrapper :is(h3,h4)'))),
+        'title': " | ".join(map(lambda x: x.text.strip(), event.select('.event-info_wrapper .event-title_wrapper :is(h3,h4)'))),
         'venue': "A Lab",
         'price': formatPrice(info_lines["Prijs:"]),
         'site': "https://www.a-lab.nl" + event.select_one('a').get('href'),
         'address': "Overhoeksplein 2, 1031 KS, Amsterdam"
     }
+    if not event_data['date']:
+      return
     yield {**event_data, 'calendar': 'alternativeAmsterdam'}
     if 'jazz' in event.text.lower():
         yield {**event_data, 'calendar': 'jazzAmsterdam'}
