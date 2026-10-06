@@ -6,9 +6,7 @@ import re
 CALENDARS = ["alternativeAmsterdam", "jazzAmsterdam", "popAmsterdam", "theaterAmsterdam"]
 
 def formatDate(dateString):
-    dateFormat = '%d|%m|%Y'
-    date = myStrptime(dateString, dateFormat).date()
-    return date.strftime('%Y-%m-%d')
+    return dateString[:10]
 
 def formatTime(description):
     try:
@@ -49,14 +47,17 @@ def getCalendar(description):
 
 def getData(event):
     site = event.select_one('a.agenda-overview_link').get('href')
-    print(site)
-    description = makeSoup(site).select_one('article').text
+    subsoup = makeSoup(site)
+    description = subsoup.select_one('article')
+    if not description:
+        description = subsoup.select_one('article')
+    description = description.text
     time = formatTime(description)
     if not time:
         print("No time")
         return
     eventData = {
-        'date': formatDate(event.select_one('time.agenda-overview_date').text),
+        'date': formatDate(event.select_one('time').get('datetime')),
         'time': time,
         'title': event.select_one('a.agenda-overview_link').text,
         'venue': "Midwest",
@@ -78,15 +79,19 @@ def getEventList():
         )
         for i in range(3)
     ]
-    css_selector = 'section.agenda-overview > .container > .agenda-overview-month > .grid-item'
+    css_selector = '.agenda-item-wrapper'
     events = sum(list(makeSoup(url + month).select(css_selector) for month in months), [])
     return events
 
+# def bot():
+#     from concurrent.futures import ThreadPoolExecutor
+#     with ThreadPoolExecutor() as executor:
+#         return (
+#             gig
+#             for gigs in executor.map(lambda event: list(getData(event)), getEventList())
+#             for gig in gigs
+#         )
+
+
 def bot():
-    from concurrent.futures import ThreadPoolExecutor
-    with ThreadPoolExecutor() as executor:
-        return (
-            gig
-            for gigs in executor.map(lambda event: list(getData(event)), getEventList())
-            for gig in gigs
-        )
+    return (gig for event in getEventList() for gig in getData(event) if gig)
