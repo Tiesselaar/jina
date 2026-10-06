@@ -1,4 +1,5 @@
 from src.tools.scraper_tools import myStrptime, makeSoup
+import re
 
 CALENDARS = ['alternativeAmsterdam', 'jazzAmsterdam', 'popAmsterdam']
 
@@ -16,13 +17,21 @@ def formatPrice(price):
         price = '€' + price
     return price
 
+def format_time(time):
+    time = time.text.split('-')[0].strip().rjust(5,'0')
+    if re.match(r'\d\d:\d\d', time):
+        return time
+    else:
+        return re.search(r'\d\d:\d\d', time)[0]
+    
+
 def getData(event):
     site = event.select_one('a').get('href')
     print(site)
     subsoup = makeSoup(site)
     eventData = {
         'date': formatDate(subsoup.select_one('.panel-body h2').text.strip()),
-        'time': event.select_one('.event-data .entry-date').text.split('-')[0].strip().rjust(5,'0'),
+        'time': format_time(event.select_one('.event-data .entry-date')),
         'title': event.select_one('.event-details .event-title').text.strip().title(),
         'venue': "De Ceuvel",
         'price': formatPrice(event.select_one('.thumb .event-meta').text),
