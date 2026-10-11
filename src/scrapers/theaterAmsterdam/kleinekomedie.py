@@ -37,7 +37,7 @@ def getData(event):
     yield {**event_data, 'calendar': 'theaterAmsterdam'}
 
 def getEventList():
-    url = 'https://www.dekleinekomedie.nl/agenda?max=36&list_type=events&page='
+    url = 'https://www.dekleinekomedie.nl/agenda?max=36&list_type=events&p54_page='
     return (event for page in range(1,5) for event in makeSoup(url + str(page)).select('ul.listItems li.eventCard'))
 
 def bot():
