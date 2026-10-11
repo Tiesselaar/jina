@@ -94,7 +94,7 @@ def getData(event):
     }
 
 def getEventList():
-    url = "https://www.frascatitheater.nl/nl/agenda?list_type=events&max=36&page="
+    url = "https://www.frascatitheater.nl/nl/agenda?list_type=events&max=36&p54_page="
     return (event for page in range(1,6) for event in makeSoup(url + str(page)).select('ul.listItems li.eventCard'))
 
 def bot():

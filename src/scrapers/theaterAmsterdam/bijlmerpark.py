@@ -22,7 +22,22 @@ def formatLocation(venueTag):
         return "Bijlmer Parktheater", "Anton de Komplein 240, 1102 DR Amsterdam"
     elif "SHEBANG" in venue:
         return "SHEBANG", "Hettenheuvelweg 8, 1101 BN Amsterdam"
-    elif "Theater Zuidplein" in venue:
+    elif "Podium Mozaïek, Amsterdam" in venue:
+        return "Podium Mozaïek", "Bos en Lommerweg 191, 1055 DT Amsterdam"
+    elif "ITA | Internationaal Theater Amsterdam" in venue:
+        return "ITA | Internationaal Theater", "Leidseplein 26, 1017 PT Amsterdam"
+    elif "Frascati Theater, Amsterdam" in venue:
+        return "Frascati", "Nes 63, 1012 KD Amsterdam"
+    elif any( v in venue for v in [
+        "Theater Zuidplein",
+        "Antwerpen",
+        "Haarlem",
+        "Den Haag",
+        "Utrecht",
+        "Leiden",
+        "Tilburg",
+        "Rotterdam",
+    ]):
         return None, None
     else:
         raise Exception('Unknown venue: ' + venue)
@@ -56,7 +71,7 @@ def getData(event):
     yield {**event_data, 'calendar': 'theaterAmsterdam'}
 
 def getEventList():
-    url = 'https://www.bijlmerparktheater.nl/agenda?list_type=events&max=36&page='
+    url = 'https://www.bijlmerparktheater.nl/agenda?list_type=events&max=36&p54_page='
     return [event for page in range(1,3) for event in makeSeleniumSoup(url + str(page)).select('ul.listItems li.eventCard')]
 
 def bot():
