@@ -34,11 +34,12 @@ def getData(event):
         }
 
 def getSoup(calendar, page):
-    url = 'https://www.muziekgebouw.nl/nl/agenda?genres%5B%5D={genre}&page={page}'
+    url = 'https://www.muziekgebouw.nl/nl/agenda?genres%5B%5D={genre}&p54_page={page}'
     genre_code = {
         "classicalAmsterdam": "",
         "jazzAmsterdam": "5"
     }
+    print(url.format(genre = genre_code[calendar], page = page))
     return makeSoup(url.format(genre = genre_code[calendar], page = page))
 
 def getEventList():
