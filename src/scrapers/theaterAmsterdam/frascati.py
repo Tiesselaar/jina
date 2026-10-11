@@ -4,8 +4,10 @@ from src.tools.scraper_tools import makeSoup, futureDate
 # CALENDARS = ['theaterAmsterdam', 'classicalAmsterdam']
 
 def formatDate(dateString):
-    dateFormat = '%a %d %b ’%y'
+    dateString += " 2024"
+    dateFormat = '%a %d %b %Y'
     date = myStrptime(dateString, dateFormat).date()
+    date = futureDate(date)
     return date.strftime('%Y-%m-%d')
 
 # def formatTime(time):
@@ -39,6 +41,8 @@ def formatLocation(location, venue):
             return "Theater De Landing", "Uilenstede 106, 1183 AM Amstelveen"
         elif venue.text.strip() in ["Studio 1", "Studio 2", "Studio 3"]:
             return "Frascati", "Nes 63, 1012 KD Amsterdam"
+        elif "Het Verbond - Café" in venue.text:
+            return "Het Verbond - Café", "Nes 71, 1012 KD Amsterdam"
         elif "Het Spektakeltje" in venue.text:
             return None, None
         elif "Het Nationale Theater" in venue.text:
@@ -60,6 +64,8 @@ def formatLocation(location, venue):
                 return "Theater de Griffioen", "De Boelelaan 1111, 1081 HV Amsterdam"
             if "Rhoneweg" in venue.text:
                 return "De Sloot", "Rhoneweg 6-10, 1043 AH Amsterdam, Nederland"
+            if "Bijlmerparktheater, Amsterdam" in venue.text:
+                return "Bijlmerparktheater", "Anton de Komplein 240, 1102 DR Amsterdam"
             raise Exception('Unhandled case: Frescati op reis, wel in Amsterdam: ' + venue.text)
         return None, None
     location = location.replace(", Amsterdam", "")
