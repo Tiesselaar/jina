@@ -20,7 +20,6 @@ __all__ = [
     "squatradar",
     # "studioK", moved this to jina4
     "takland",
-    "tanker",
     "tolhuistuin",
     "treehouse",
     "volkshotel",
